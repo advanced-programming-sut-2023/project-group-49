@@ -25,7 +25,7 @@ assignees: Arman17Babaei
   <div dir="ltr" align='right'>
 
   1. [ ] شروع نشده
-  2. [✅] در حال انجام
+  2. [ ] در حال انجام
   3. [ ] تمام شده
   </div>
 </details>
@@ -37,7 +37,7 @@ assignees: Arman17Babaei
   
   <div  dir="ltr" align='right'>
   
-  1. [✅] شروع نشده
+  1. [ ] شروع نشده
   2. [ ] در حال انجام
   3. [ ] تمام شده
      </div>
@@ -80,7 +80,7 @@ assignees: Arman17Babaei
   <div dir="ltr" align='right'>
 
   1. [ ] شروع نشده
-  2. [✅] در حال انجام
+  2. [ ] در حال انجام
   3. [ ] تمام شده
   </div>
 </details>

@@ -13,44 +13,48 @@ import static view.CommandsEnum.USERNAME_FORMAT_INVALID;
 
 public class SignupMenuAndLoginMenu {
 
+    static String username;
+    static String password ;
+    static String email ;
+    static String nickname ;
+    static String slogan ;
+    static String answer ;
+    static String questionNumber ;
+    static String answerConfirm ;
+    static String passwordConfirmation ;
+    static String oldPassword ;
+    static String newPassword ;
 
 
-    static String username = null;
-    static String password = null;
-    static String email = null;
-    static String nickname = null;
-    static String slogan = null;
-    static String answer = null;
-    static String questionNumber = null;
-    static String answerConfirm = null;
-    static String passwordConfirmation = null;
-    static String oldPassword = null;
-    static String newPassword = null;
+    public void run(){
+        while(true){
+            String command = MainMenu.getScanner().nextLine();
+            Matcher matcher;
+            if (command.equals("exit"))
+                break;
+            else if (Commands.getMatcher(command,Commands.REGISTER_VALID) != null)
+                register(command);
+            else if ((matcher =Commands.getMatcher(command, Commands.LOGIN_VALID)) != null)
+                System.out.println(login(matcher));
+            else if (Commands.getMatcher(command, Commands.FORGOT_PASSWORD) != null)
+                forgotPassword(command);
+            else
+                System.out.println("Invalid command!");
+        }
 
-
-public void run(){
-    while(true){
-        String command = MainMenu.getScanner().nextLine();
-        Matcher matcher;
-        if (command.equals("exit"))
-            break;
-        else if (Commands.getMatcher(command,Commands.REGISTER_VALID) != null)
-            register(command);
-        else if ((matcher =Commands.getMatcher(command, Commands.LOGIN_VALID)) != null)
-            System.out.println(login(matcher));
-        else if (Commands.getMatcher(command, Commands.FORGOT_PASSWORD) != null)
-            forgotPassword(command);
-        else
-            System.out.println("Invalid command!");
     }
-
-}
 
 
     private void register(String command){
 
-          sprater(command);
-          CommandsEnum message = SignupMenuController.userCreater(username,password,passwordConfirmation,email,slogan,nickname);
+        separator(command);
+        System.out.println(username);
+        System.out.println(password);
+        System.out.println(passwordConfirmation);
+        System.out.println(email);
+        System.out.println(slogan);
+        System.out.println(nickname);
+        CommandsEnum message = SignupMenuController.userCreator(username,password,passwordConfirmation,email,slogan,nickname);
         switch (message) {
             //TODO:check errors
             case USERNAME_FORMAT_INVALID:
@@ -100,7 +104,7 @@ public void run(){
 
     private void securityQuestion (String username){
         String command = MainMenu.getScanner().nextLine();
-        sprater(command);
+        separator(command);
         SignupMenuController.answerOfSecurityQuestion(Integer.parseInt(questionNumber),answer,answerConfirm,username);
     }
 
@@ -123,9 +127,10 @@ public void run(){
 
 
     private void forgotPassword(String command){
-        sprater(command);
+        separator(command);
         if(User.getUserByUsername(username)!=null) {
             System.out.println(User.getUserByUsername(username).getPasswordRecoveryQuestion());
+
         }
         String answer = MainMenu.getScanner().nextLine();
         String message= LoginMenuController.forgotPasswordController(answer,username);
@@ -163,7 +168,7 @@ public void run(){
                 return "password successfully changed";
             default:
                 return "Invalid command!";
-    }
+        }
     }
 
 
@@ -191,8 +196,8 @@ public void run(){
     }
 
 
-    public static void sprater(String c) {
-        String pattern2 = "(-(?<option>[upenqacsow]) (?<name>\\S+))";
+    public static void separator(String c) {
+        String pattern2 = "-(?<option>[upenqacsow]) (?<name>\\S+)";
         Pattern pattern = Pattern.compile(pattern2);
         Matcher matcher = pattern.matcher(c);
         while (matcher.find()) {
@@ -234,6 +239,16 @@ public void run(){
                     break;
             }
         }
+
+
+        if((matcher=MainMenu.getMatcher(c,".*-p \\S+ (?<password>\\S+).*"))!=null){
+            passwordConfirmation=matcher.group("password");
+        }
+
+
+
+
+
     }
 
     public void removeCotation(String string) {

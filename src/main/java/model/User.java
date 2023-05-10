@@ -19,8 +19,8 @@ public class User {
         this.email = email;
     }
 
-    public static void addUser(String username, String password, String nickname, String email) {
-        allUsers.add(new User(username, password, nickname, email));
+    public static void addUser(User user) {
+        allUsers.add(user);
     }
 
     public static User getUserByUsername(String username) {

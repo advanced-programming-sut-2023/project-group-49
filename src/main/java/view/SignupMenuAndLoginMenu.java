@@ -46,15 +46,8 @@ public class SignupMenuAndLoginMenu {
 
 
     private void register(String command){
-
-        separator(command);
-        System.out.println(username);
-        System.out.println(password);
-        System.out.println(passwordConfirmation);
-        System.out.println(email);
-        System.out.println(slogan);
-        System.out.println(nickname);
-        CommandsEnum message = SignupMenuController.userCreator(username,password,passwordConfirmation,email,slogan,nickname);
+        SignupMenuController.separator(command);
+        CommandsEnum message = SignupMenuController.userCreator();
         switch (message) {
             //TODO:check errors
             case USERNAME_FORMAT_INVALID:
@@ -92,9 +85,7 @@ public class SignupMenuAndLoginMenu {
                 break;
             case SUCCESS:
                 System.out.println("User has been created successfully!");
-                System.out.println("Pick your security question: \n1. What is my father’s name? \n" +
-                        "2. What was my first pet’s name? \n3. What is my mother’s last name?");
-                securityQuestion(username);
+                securityQuestion();
                 break;
             default:
                 System.out.println("Invalid command!");
@@ -102,10 +93,12 @@ public class SignupMenuAndLoginMenu {
     }
 
 
-    private void securityQuestion (String username){
+    private void securityQuestion (){
+        System.out.println("Pick your security question: \n1. What is my father’s name? \n" +
+                "2. What was my first pet’s name? \n3. What is my mother’s last name?");
         String command = MainMenu.getScanner().nextLine();
-        separator(command);
-        SignupMenuController.answerOfSecurityQuestion(Integer.parseInt(questionNumber),answer,answerConfirm,username);
+        SignupMenuController.separator(command);
+        SignupMenuController.answerOfSecurityQuestion();
     }
 
 
@@ -127,7 +120,7 @@ public class SignupMenuAndLoginMenu {
 
 
     private void forgotPassword(String command){
-        separator(command);
+        SignupMenuController.separator(command);
         if(User.getUserByUsername(username)!=null) {
             System.out.println(User.getUserByUsername(username).getPasswordRecoveryQuestion());
 
@@ -162,7 +155,7 @@ public class SignupMenuAndLoginMenu {
                 return "small letters doesn't exists";
             case NUMBER_NOT_EXISTS:
                 return "password should have number";
-            case INVALID_SPETIONAL:
+            case INVALID_SPECIAL_CHARACTER:
                 return "password should hava special character";
             case SUCCESS:
                 return "password successfully changed";
@@ -196,65 +189,25 @@ public class SignupMenuAndLoginMenu {
     }
 
 
-    public static void separator(String c) {
-        String pattern2 = "-(?<option>[upenqacsow]) (?<name>\\S+)";
-        Pattern pattern = Pattern.compile(pattern2);
-        Matcher matcher = pattern.matcher(c);
-        while (matcher.find()) {
-            String option = matcher.group("option");
-            String name = matcher.group("name");
-            switch (option) {
-                case "p":
-                    password = name;
-                    break;
-                case "e":
-                    email = name;
-                    break;
-                case "n":
-                    nickname = name;
-                    break;
-                case "s":
-                    slogan = name;
-                    break;
-                case "a":
-                    answer = name;
-                    break;
-                case "q":
-                    questionNumber = name;
-                    break;
-                case "u":
-                    username = name;
-                    break;
-                case "c":
-                    answerConfirm = name;
-                    break;
-                case "f":
-                    passwordConfirmation = name;
-                    break;
-                case "o":
-                    oldPassword = name;
-                    break;
-                case "w":
-                    newPassword = name;
-                    break;
-            }
-        }
 
-
-        if((matcher=MainMenu.getMatcher(c,".*-p \\S+ (?<password>\\S+).*"))!=null){
-            passwordConfirmation=matcher.group("password");
-        }
-
-
-
-
-
-    }
 
     public void removeCotation(String string) {
         if (string.matches("(\".+\")")) {
             String result = string.substring(1, string.length() - 1);
             string = result;
+        }
+    }
+
+    public static void printUsernameSuggestion(String username){
+        System.out.println(username);
+    }
+    public static void printRandomPassword(String randomPassword){
+        System.out.println(randomPassword);
+        while (true){
+            String confirm=MainMenu.getScanner().nextLine();
+            if (confirm.equals(randomPassword))
+                return;
+            else System.out.println("Your password is wrong");
         }
     }
 }

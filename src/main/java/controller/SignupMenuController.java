@@ -6,16 +6,33 @@ import view.CommandsEnum;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
-import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.json.simple.JSONObject;
+import view.MainMenu;
+import view.SignupMenuAndLoginMenu;
 
 public class SignupMenuController {
     public static String newUsername;
 
-    public static CommandsEnum userCreator(String username,String password,String passwordConfirmation,String email,String slogan,String nickname) {
+    static String username;
+    static String password;
+    static String email;
+    static String nickname;
+    static String slogan;
+    static String answer;
+    static String questionNumber;
+    static String answerConfirm;
+    static String passwordConfirmation;
+    static String oldPassword;
+    static String newPassword;
 
-        if (username.matches("\\s*") || password.matches("\\s*") || passwordConfirmation.matches("\\s*")
-                || email.matches("\\s*") ) {
+
+    public static CommandsEnum userCreator() {
+
+        if (username == null || password == null || passwordConfirmation == null || nickname == null
+                || email == null) {
             return CommandsEnum.EMPTY_FIELD;
         }
         CommandsEnum result2=checkUsername(username);
@@ -28,22 +45,19 @@ public class SignupMenuController {
             if (!password.equals(passwordConfirmation))
                 return CommandsEnum.PASSWORD_CONFIRMATION_INCORRECT;
         }
-        CommandsEnum result3=checkUsername(username);
-        if(result3!=CommandsEnum.SUCCESS)
-            return result3;
-        else{
-            User user=new User(username,password,nickname,email);
-            if(password.equals("random"))
-                randomPassword(username);
-            if(slogan.equals("random"))
-                randomSlogan(username);
-            User.getAllUsers().add(User.getUserByUsername(username));
-            userDateBase(username,password,email,slogan,nickname);
+
+        User user=new User(username,password,nickname,email);
+        User.addUser(user);
+        if(password.equals("random"))
+            randomPassword();
+        if(slogan.equals("random"))
+            randomSlogan();
+        userDateBase();
 
 
-            return CommandsEnum.SUCCESS;
-        }
+        return CommandsEnum.SUCCESS;
     }
+
     public static CommandsEnum checkUsername(String username){
         if (!username.matches("[a-zA-Z0-9_]+")) {
             return CommandsEnum.USERNAME_FORMAT_INVALID;
@@ -55,7 +69,7 @@ public class SignupMenuController {
     }
     public static CommandsEnum checkPasswordFormat(String password){
 
-         if (password.length() < 6) {
+        if (password.length() < 6) {
             return CommandsEnum.LENGTH_WEEK_PASSWORD;
         } else if (!password.matches(".*[A-Z].*")) {
             return CommandsEnum.CAPITAL_LETTERS;
@@ -64,19 +78,17 @@ public class SignupMenuController {
         } else if (!password.matches(".*[0-9].*")) {
             return CommandsEnum.NUMBER_NOT_EXISTS;
         } else if (!password.matches(".*[\\W+].*")) {
-            return CommandsEnum.INVALID_SPETIONAL;
-        } else if (!password.equals(passwordConfirmation)) {
-            return CommandsEnum.PASSWORD_CONFIRMATION_INCORRECT;
-        }
-         else return CommandsEnum.SUCCESS;
+            return CommandsEnum.INVALID_SPECIAL_CHARACTER;
+        }else return CommandsEnum.SUCCESS;
 
     }
     public static CommandsEnum checkEmailFormats(String email){
-         if (!email.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]+")) {
+        if (!email.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]+")) {
             return CommandsEnum.EMAIL_FORMAT;
         } else if (User.getUserByEmail(email) != null) {
             return CommandsEnum.MALE_EXISTS;
         }
+        return null;
     }
 
     public  static void UsernameSuggestion(String username){
@@ -84,35 +96,36 @@ public class SignupMenuController {
         while (true){
             newUsername = null;
             int rand = random.nextInt(1000);
-            newUsername = username + rand;
             if(User.getUserByUsername(newUsername) == null){
-                //TODO
+                newUsername = username + rand;
                 break;
             }
         }
 
     }
-    public static void answerOfSecurityQuestion(int question,String answer,String answerConfirm,String username){
-        if(question==1) {
+    public static void answerOfSecurityQuestion(){
+        if(Integer.parseInt(questionNumber)==1) {
             User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my father's name?");
         }
-        else if(question==2) {
+        else if(Integer.parseInt(questionNumber)==2) {
             User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my first pet's name?");
         }
-        else if(question==3) {
+        else if(Integer.parseInt(questionNumber)==3) {
             User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my mother's last name?");
         }
         User.getUserByUsername(username).setAnswer(answer);
-
-
+        userDateBase();
+        getNull();
     }
-    public static void userDateBase(String username,String password,String email,String slogan,String nickname){
+    public static void userDateBase(){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username", username);
-        jsonObject.put("password", password);
+        jsonObject.put("password", User.getUserByUsername(username).getPassword());
         jsonObject.put("email", email);
-        jsonObject.put("slogan", slogan);
+        jsonObject.put("slogan", User.getUserByUsername(username).getSlogan());
         jsonObject.put("nickname", nickname);
+        jsonObject.put("Question",User.getUserByUsername(username).getPasswordRecoveryQuestion());
+        jsonObject.put("answer",answer);
         try {
             FileWriter file = new FileWriter("G:/"+username+".json");
             file.write(jsonObject.toJSONString());
@@ -122,7 +135,7 @@ public class SignupMenuController {
         }
 
     }
-    public static void randomPassword(String username){
+    public static void randomPassword(){
         Random rand = new Random();
         int length;
         while (true) {
@@ -193,13 +206,75 @@ public class SignupMenuController {
             randomString.insert(change2, c1);
         }
         String randomString2= String.valueOf(randomString);
+        SignupMenuAndLoginMenu.printRandomPassword(randomString2);
         User.getUserByUsername(username).setPassword(randomString2);
 
-
     }
-    public static void randomSlogan(String username){
+    public static void randomSlogan(){
         String randomSlogan=null;
         //TODO:create file and write slogan
         User.getUserByUsername(username).setSlogan(randomSlogan);
+    }
+    public static void separator(String c) {
+        String pattern2 = "-(?<option>[upenqacsow]) (?<name>\\S+)";
+        Pattern pattern = Pattern.compile(pattern2);
+        Matcher matcher = pattern.matcher(c);
+        while (matcher.find()) {
+            String option = matcher.group("option");
+            String name = matcher.group("name");
+            switch (option) {
+                case "p":
+                    password = name;
+                    break;
+                case "e":
+                    email = name;
+                    break;
+                case "n":
+                    nickname = name;
+                    break;
+                case "s":
+                    slogan = name;
+                    break;
+                case "a":
+                    answer = name;
+                    break;
+                case "q":
+                    questionNumber = name;
+                    break;
+                case "u":
+                    username = name;
+                    break;
+                case "c":
+                    answerConfirm = name;
+                    break;
+                case "f":
+                    passwordConfirmation = name;
+                    break;
+                case "o":
+                    oldPassword = name;
+                    break;
+                case "w":
+                    newPassword = name;
+                    break;
+            }
+        }
+
+
+        if((matcher= MainMenu.getMatcher(c,".*-p \\S+ (?<password>\\S+).*"))!=null){
+            passwordConfirmation=matcher.group("password");
+        }
+
+    }
+    public static void getNull(){
+        username=null;
+        password=null;
+        passwordConfirmation=null;
+        email=null;
+        nickname=null;
+        slogan=null;
+        answer=null;
+        answerConfirm=null;
+        questionNumber=null;
+
     }
 }

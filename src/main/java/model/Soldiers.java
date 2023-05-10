@@ -1,46 +1,47 @@
 package model;
 
-import view.Commands;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public enum Soldiers {
-    ARCHER("Archer", "much", "low", "low", "",
+    //very low=2
+    //low=4
+    //average=8
+    //much=16
+    //very much=32
+    ARCHER("Archer", "much", "low", "low", "16",
             "european", "bow"),
-    SPEARMEN("Spearmen", "average", "average", "very low", "",
+    SPEARMEN("Spearmen", "average", "average", "very low", "8",
             "european", "spear"),
-    TUNNELER("Tunneler", "much", "average", "very low", "",
+    TUNNELER("Tunneler", "much", "average", "very low", "16",
             "european", "pick axe"),
-    LADDERMEN("Laddermen", "much", "null", "very low", "",
+    LADDERMEN("Laddermen", "much", "null", "very low", "16",
             "european", "null"),
-    ENGINEER("Engineer", "average", "null", "very low", "",
+    ENGINEER("Engineer", "average", "null", "very low", "8",
             "european", "null"),
-    BLACK_MONCK("Black Monk", "low", "average", "average", "",
+    BLACK_MONCK("Black Monk", "low", "average", "average", "4",
             "european", "staff"),
-    ARCHER_BOW("Archer Bow", "much", "low", "low", "",
+    ARCHER_BOW("Archer Bow", "much", "low", "low", "16",
             "arabian", "bow"),
-    SLAVES("Slaves", "much", "very very low", "very very low", "",
+    SLAVES("Slaves", "much", "very very low", "very very low", "16",
             "arabian", "torch"),
-    SLINGERS("Slingers", "much", "low", "very low", "",
+    SLINGERS("Slingers", "much", "low", "very low", "16",
             "arabian", "sling"),
-    ASSASSINS("Assassins", "average", "average", "average", "",
+    ASSASSINS("Assassins", "average", "average", "average", "8",
             "arabian", "scimitar"),
-    CROSSBOWMEN("Crossbowmen", "low", "low", "average", "",
+    CROSSBOWMEN("Crossbowmen", "low", "low", "average", "4",
             "european", "crossbow"),
-    PIKEMEN("Pikemen", "low", "average", "much", "",
+    PIKEMEN("Pikemen", "low", "average", "much", "4",
             "european", "pike"),
-    MACEMEN("Macemen", "average", "much", "average", "",
+    MACEMEN("Macemen", "average", "much", "average", "8",
             "european", "mace"),
-    SWORDSMEN("Swordsmen", "very very low", "very much", "very low", "",
+    SWORDSMEN("Swordsmen", "very very low", "very much", "very low", "1",
             "european", "sword"),
-    KNIGHT("Knight", "very much", "very much", "much", "",
+    KNIGHT("Knight", "very much", "very much", "much", "32",
             "european", "sword"),
-    HORSE_ARCHERS("Horse Archers", "very much", "low", "average", "",
+    HORSE_ARCHERS("Horse Archers", "very much", "low", "average", "32",
             "arabian", "bow"),
-    ARABIAN_SWORDSMEN("Arabian Swordsmen", "very much", "much", "much", "",
+    ARABIAN_SWORDSMEN("Arabian Swordsmen", "very much", "much", "much", "32",
             "arabian", "scimitar"),
-    FIRE_THROWERS("Fire Throwers", "very much", "much", "low", "",
+    FIRE_THROWERS("Fire Throwers", "very much", "much", "low", "32",
             "arabian", "greek fire");
 
 

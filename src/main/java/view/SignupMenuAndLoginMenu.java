@@ -13,44 +13,41 @@ import static view.CommandsEnum.USERNAME_FORMAT_INVALID;
 
 public class SignupMenuAndLoginMenu {
 
+    static String username;
+    static String password ;
+    static String email ;
+    static String nickname ;
+    static String slogan ;
+    static String answer ;
+    static String questionNumber ;
+    static String answerConfirm ;
+    static String passwordConfirmation ;
+    static String oldPassword ;
+    static String newPassword ;
 
 
-    static String username = null;
-    static String password = null;
-    static String email = null;
-    static String nickname = null;
-    static String slogan = null;
-    static String answer = null;
-    static String questionNumber = null;
-    static String answerConfirm = null;
-    static String passwordConfirmation = null;
-    static String oldPassword = null;
-    static String newPassword = null;
+    public void run(){
+        while(true){
+            String command = MainMenu.getScanner().nextLine();
+            Matcher matcher;
+            if (command.equals("exit"))
+                break;
+            else if (Commands.getMatcher(command,Commands.REGISTER_VALID) != null)
+                register(command);
+            else if ((matcher =Commands.getMatcher(command, Commands.LOGIN_VALID)) != null)
+                System.out.println(login(matcher));
+            else if (Commands.getMatcher(command, Commands.FORGOT_PASSWORD) != null)
+                forgotPassword(command);
+            else
+                System.out.println("Invalid command!");
+        }
 
-
-public void run(){
-    while(true){
-        String command = MainMenu.getScanner().nextLine();
-        Matcher matcher;
-        if (command.equals("exit"))
-            break;
-        else if (Commands.getMatcher(command,Commands.REGISTER_VALID) != null)
-            register(command);
-        else if ((matcher =Commands.getMatcher(command, Commands.LOGIN_VALID)) != null)
-            System.out.println(login(matcher));
-        else if (Commands.getMatcher(command, Commands.FORGOT_PASSWORD) != null)
-            forgotPassword(command);
-        else
-            System.out.println("Invalid command!");
     }
-
-}
 
 
     private void register(String command){
-
-          sprater(command);
-          CommandsEnum message = SignupMenuController.userCreater(username,password,passwordConfirmation,email,slogan,nickname);
+        SignupMenuController.separator(command);
+        CommandsEnum message = SignupMenuController.userCreator();
         switch (message) {
             //TODO:check errors
             case USERNAME_FORMAT_INVALID:
@@ -88,9 +85,7 @@ public void run(){
                 break;
             case SUCCESS:
                 System.out.println("User has been created successfully!");
-                System.out.println("Pick your security question: \n1. What is my father’s name? \n" +
-                        "2. What was my first pet’s name? \n3. What is my mother’s last name?");
-                securityQuestion(username);
+                securityQuestion();
                 break;
             default:
                 System.out.println("Invalid command!");
@@ -98,10 +93,12 @@ public void run(){
     }
 
 
-    private void securityQuestion (String username){
+    private void securityQuestion (){
+        System.out.println("Pick your security question: \n1. What is my father’s name? \n" +
+                "2. What was my first pet’s name? \n3. What is my mother’s last name?");
         String command = MainMenu.getScanner().nextLine();
-        sprater(command);
-        SignupMenuController.answerOfSecurityQuestion(Integer.parseInt(questionNumber),answer,answerConfirm,username);
+        SignupMenuController.separator(command);
+        SignupMenuController.answerOfSecurityQuestion();
     }
 
 
@@ -123,9 +120,10 @@ public void run(){
 
 
     private void forgotPassword(String command){
-        sprater(command);
+        SignupMenuController.separator(command);
         if(User.getUserByUsername(username)!=null) {
             System.out.println(User.getUserByUsername(username).getPasswordRecoveryQuestion());
+
         }
         String answer = MainMenu.getScanner().nextLine();
         String message= LoginMenuController.forgotPasswordController(answer,username);
@@ -157,13 +155,13 @@ public void run(){
                 return "small letters doesn't exists";
             case NUMBER_NOT_EXISTS:
                 return "password should have number";
-            case INVALID_SPETIONAL:
+            case INVALID_SPECIAL_CHARACTER:
                 return "password should hava special character";
             case SUCCESS:
                 return "password successfully changed";
             default:
                 return "Invalid command!";
-    }
+        }
     }
 
 
@@ -191,55 +189,25 @@ public void run(){
     }
 
 
-    public static void sprater(String c) {
-        String pattern2 = "(-(?<option>[upenqacsow]) (?<name>\\S+))";
-        Pattern pattern = Pattern.compile(pattern2);
-        Matcher matcher = pattern.matcher(c);
-        while (matcher.find()) {
-            String option = matcher.group("option");
-            String name = matcher.group("name");
-            switch (option) {
-                case "p":
-                    password = name;
-                    break;
-                case "e":
-                    email = name;
-                    break;
-                case "n":
-                    nickname = name;
-                    break;
-                case "s":
-                    slogan = name;
-                    break;
-                case "a":
-                    answer = name;
-                    break;
-                case "q":
-                    questionNumber = name;
-                    break;
-                case "u":
-                    username = name;
-                    break;
-                case "c":
-                    answerConfirm = name;
-                    break;
-                case "f":
-                    passwordConfirmation = name;
-                    break;
-                case "o":
-                    oldPassword = name;
-                    break;
-                case "w":
-                    newPassword = name;
-                    break;
-            }
-        }
-    }
+
 
     public void removeCotation(String string) {
         if (string.matches("(\".+\")")) {
             String result = string.substring(1, string.length() - 1);
             string = result;
+        }
+    }
+
+    public static void printUsernameSuggestion(String username){
+        System.out.println(username);
+    }
+    public static void printRandomPassword(String randomPassword){
+        System.out.println(randomPassword);
+        while (true){
+            String confirm=MainMenu.getScanner().nextLine();
+            if (confirm.equals(randomPassword))
+                return;
+            else System.out.println("Your password is wrong");
         }
     }
 }

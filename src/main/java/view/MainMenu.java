@@ -1,7 +1,11 @@
 package view;
 
+import model.Product;
+
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainMenu {
     private static final Scanner scanner = new Scanner(System.in);
@@ -9,7 +13,10 @@ public class MainMenu {
     public static Scanner getScanner() {
         return scanner;
     }
-
+    public static Matcher getMatcher(String command,String regex){
+        Matcher matcher= Pattern.compile(regex).matcher(command);
+        return matcher.matches()?matcher:null;
+    }
 
     public static void run() {
         while (true) {
@@ -17,17 +24,20 @@ public class MainMenu {
             Matcher matcher;
             if (command.equals("logout")) {
                 break;
-            }else if (command.matches("\\s*show\\s+current\\s+menu\\s*")) {
-                System.out.println("mai admin menu");
-            } else if ((matcher = Commands.getMatcher(command, Commands.ENTER_MENU)) != null) {
-                System.out.println(enterMenu(matcher));
-            } else
-                System.out.println("invalid command!");
+            }else if(command.matches("profile .+")){
+                ProfileMenu profileMenu=new ProfileMenu();
+                profileMenu.run(command);
+            }else{
+                GameMenu gameMenu=new GameMenu();
+                gameMenu.run();
+            }
+
+
         }
     }
 
 
-    public static String enterMenu(Matcher matcher){
+    /*public static String enterMenu(Matcher matcher){
         String menuName = matcher.group("menuName");
         CommandsEnum messages = ChoosingMenu.enteringMenu(menuName);
         switch (messages){
@@ -38,19 +48,19 @@ public class MainMenu {
             case SUCCESS:
                 switch (menuName){
                     case "customer menu":
-                        ProfileMenu.run(getScanner());
+                        ProfileMenu.run();
                     case "restaurant admin menu":
-                        MapMenu.run(getScanner());
+                        MapMenu.run();
                     case "Snappfood admin menu":
-                        GameMenu.run(getScanner());
+                        GameMenu.run();
                 }
                 return ("enter menu successful: You are in the " +menuName +"!");
             default:
                 return ("invalid command!");
         }
-    }
+    }*/
 
 
-    }
+}
 
 

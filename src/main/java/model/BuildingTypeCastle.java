@@ -1,4 +1,4 @@
 package model;
 
-public class BuildingTypeCastle {
+public enum BuildingTypeCastle {
 }

@@ -3,9 +3,11 @@ package model;
 import java.util.ArrayList;
 
 public class Features {
-   private ArrayList<MilitaryUnits> listOfUnits;
+    private static ArrayList<MilitaryUnits> listOfUnits;
     private ArrayList<Buildings> listOfBuildings;
     private GroundTypes groundType;
+    private String tree;
+
 
     public Features() {
 
@@ -23,7 +25,7 @@ public class Features {
         this.groundType = groundType;
     }
 
-    public ArrayList<MilitaryUnits> getListOfUnits() {
+    public  ArrayList<MilitaryUnits> getListOfUnits() {
         return listOfUnits;
     }
 
@@ -33,5 +35,13 @@ public class Features {
 
     public GroundTypes getGroundType() {
         return groundType;
+    }
+
+    public String getTree() {
+        return tree;
+    }
+
+    public void setTree(String tree) {
+        this.tree = tree;
     }
 }

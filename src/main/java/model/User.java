@@ -10,14 +10,25 @@ public class User {
     private String slogan;
     private String passwordRecoveryQuestion;
     private String answer;
-    private static ArrayList<User> allUsers = new ArrayList<>();
+
+    private static ArrayList<User> allUsers ;
+    private final int userId;
+    private static int lastUserId;
+    static {
+        lastUserId=0;
+        allUsers=new ArrayList<>();
+    }
 
     public User(String username, String password, String nickname, String email) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.email = email;
+        this.userId=lastUserId;
+        lastUserId++;
+
     }
+
 
     public static void addUser(User user) {
         allUsers.add(user);
@@ -102,5 +113,9 @@ public class User {
 
     public static ArrayList<User> getAllUsers() {
         return allUsers;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 }

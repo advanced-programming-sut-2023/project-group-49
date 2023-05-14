@@ -1,6 +1,7 @@
 package controller;
 
 import model.User;
+import org.w3c.dom.ls.LSOutput;
 import view.CommandsEnum;
 
 import java.io.FileWriter;
@@ -30,28 +31,46 @@ public class SignupMenuController {
 
 
     public static CommandsEnum userCreator() {
-
         if (username == null || password == null || passwordConfirmation == null || nickname == null
                 || email == null) {
+            getNull();
             return CommandsEnum.EMPTY_FIELD;
         }
         CommandsEnum result2=checkUsername(username);
-        if(result2!=CommandsEnum.SUCCESS)
+        if(result2!=CommandsEnum.SUCCESS) {
+            getNull();
             return result2;
+        }
         if(!password.equals("random")) {
             CommandsEnum result = checkPasswordFormat(password);
-            if (result != CommandsEnum.SUCCESS)
+            if (result != CommandsEnum.SUCCESS) {
+                getNull();
                 return result;
-            if (!password.equals(passwordConfirmation))
+            }
+            if (!password.equals(passwordConfirmation)) {
+                getNull();
                 return CommandsEnum.PASSWORD_CONFIRMATION_INCORRECT;
+            }
+            CommandsEnum result3=checkEmailFormats(email);
+            if(result3!=CommandsEnum.SUCCESS){
+                getNull();
+                return result3;
+            }
         }
 
         User user=new User(username,password,nickname,email);
+        try {
+            user.setSlogan(slogan);
+            if(slogan.equals("random"))
+                randomSlogan();
+        }catch(NullPointerException ignored){
+
+        }
+
         User.addUser(user);
         if(password.equals("random"))
             randomPassword();
-        if(slogan.equals("random"))
-            randomSlogan();
+
         userDateBase();
 
 
@@ -86,9 +105,9 @@ public class SignupMenuController {
         if (!email.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]+")) {
             return CommandsEnum.EMAIL_FORMAT;
         } else if (User.getUserByEmail(email) != null) {
-            return CommandsEnum.MALE_EXISTS;
+            return CommandsEnum.EMAIL_EXISTS;
         }
-        return null;
+        return CommandsEnum.SUCCESS;
     }
 
     public  static void UsernameSuggestion(String username){
@@ -103,31 +122,52 @@ public class SignupMenuController {
         }
 
     }
-    public static void answerOfSecurityQuestion(){
-        if(Integer.parseInt(questionNumber)==1) {
-            User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my father's name?");
+    public static String  answerOfSecurityQuestion(){
+        try {
+            if(Integer.parseInt(questionNumber)==1) {
+                User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my father's name?");
+            }
+            else if(Integer.parseInt(questionNumber)==2) {
+                User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my first pet's name?");
+            }
+            else if(Integer.parseInt(questionNumber)==3) {
+                User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my mother's last name?");
+            }
+
+        }catch (NumberFormatException e){
+            SignupMenuAndLoginMenu.print("not a format of picking security question!");
+            SignupMenuAndLoginMenu.securityQuestion();
         }
-        else if(Integer.parseInt(questionNumber)==2) {
-            User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my first pet's name?");
+        try {
+            User.getUserByUsername(username).setAnswer(answer);
+            userDateBase();
+            getNull();
+        }catch (NullPointerException ignored){
+            return "";
         }
-        else if(Integer.parseInt(questionNumber)==3) {
-            User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my mother's last name?");
-        }
-        User.getUserByUsername(username).setAnswer(answer);
-        userDateBase();
-        getNull();
+
+        return "security question picked";
     }
     public static void userDateBase(){
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("username", username);
-        jsonObject.put("password", User.getUserByUsername(username).getPassword());
-        jsonObject.put("email", email);
-        jsonObject.put("slogan", User.getUserByUsername(username).getSlogan());
-        jsonObject.put("nickname", nickname);
-        jsonObject.put("Question",User.getUserByUsername(username).getPasswordRecoveryQuestion());
-        jsonObject.put("answer",answer);
+        User user;
+        if(LoginMenuController.currentUser!=null)
+            user=LoginMenuController.currentUser;
+        else user=User.getUserByUsername(username);
+        jsonObject.put("username", user.getUsername());
+        jsonObject.put("password", user.getPassword());
+        jsonObject.put("email", user.getEmail());
         try {
-            FileWriter file = new FileWriter("G:/"+username+".json");
+            jsonObject.put("slogan", user.getSlogan());
+        }catch (NullPointerException ignored){
+
+        }
+
+        jsonObject.put("nickname", user.getNickname());
+        jsonObject.put("Question",user.getPasswordRecoveryQuestion());
+        jsonObject.put("answer",user.getAnswer());
+        try {
+            FileWriter file = new FileWriter("G:/"+user.getUserId()+".json");
             file.write(jsonObject.toJSONString());
             file.close();
         } catch (IOException e) {
@@ -216,12 +256,14 @@ public class SignupMenuController {
         User.getUserByUsername(username).setSlogan(randomSlogan);
     }
     public static void separator(String c) {
-        String pattern2 = "-(?<option>[upenqacsow]) (?<name>\\S+)";
+        String pattern2 = "-(?<option>[upenqacsow]) (?<name>\"((?<=\").*?(?=\"))\"|\\S+)";
         Pattern pattern = Pattern.compile(pattern2);
         Matcher matcher = pattern.matcher(c);
         while (matcher.find()) {
             String option = matcher.group("option");
             String name = matcher.group("name");
+            if(name.matches("\"((?<=\").*?(?=\"))\""))
+                name=name.substring(1,name.length()-1);
             switch (option) {
                 case "p":
                     password = name;
@@ -258,8 +300,6 @@ public class SignupMenuController {
                     break;
             }
         }
-
-
         if((matcher= MainMenu.getMatcher(c,".*-p \\S+ (?<password>\\S+).*"))!=null){
             passwordConfirmation=matcher.group("password");
         }
@@ -276,5 +316,43 @@ public class SignupMenuController {
         answerConfirm=null;
         questionNumber=null;
 
+    }
+    public static String forgotMyPassword(){
+        if(User.getUserByUsername(username)!=null) {
+            return User.getUserByUsername(username).getPasswordRecoveryQuestion();
+
+        }
+        return null;
+    }
+    public static String forgotPasswordController(String answer){
+        if(answer.equals(User.getUserByUsername(username).getAnswer())){
+            return "successful";
+        }
+        else {
+            return "answer incorrect";
+        }
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static String getNickname() {
+        return nickname;
+    }
+    public static String getNewPassword(){
+        return newPassword;
+    }
+
+    protected static String getOldPassword() {
+        return oldPassword;
+    }
+
+    public static String getEmail() {
+        return email;
+    }
+
+    public static String getSlogan() {
+        return slogan;
     }
 }

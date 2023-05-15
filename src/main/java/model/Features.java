@@ -3,45 +3,49 @@ package model;
 import java.util.ArrayList;
 
 public class Features {
-    private static ArrayList<MilitaryUnits> listOfUnits;
-    private ArrayList<Buildings> listOfBuildings;
-    private GroundTypes groundType;
-    private String tree;
+
+
+    private  ArrayList<MilitaryUnits> allUnit;
+    private Buildings Building;
+    private GroundTypes groundType = GroundTypes.GROUND;
+    private Materials tree;
 
 
     public Features() {
 
     }
 
-    public void setListOfUnits(ArrayList<MilitaryUnits> listOfUnits) {
-        this.listOfUnits = listOfUnits;
+    public void setAllUnit(ArrayList<MilitaryUnits> allUnit) {
+        this.allUnit = allUnit;
     }
 
-    public void setListOfBuildings(ArrayList<Buildings> listOfBuildings) {
-        this.listOfBuildings = listOfBuildings;
+
+    public void setBuilding(Buildings building) {
+        Building = building;
+    }
+
+
+    public Buildings getBuilding() {
+        return Building;
+    }
+
+    public ArrayList<MilitaryUnits> getAllUnit() {
+        return allUnit;
     }
 
     public void setGroundType(GroundTypes groundType) {
         this.groundType = groundType;
     }
 
-    public  ArrayList<MilitaryUnits> getListOfUnits() {
-        return listOfUnits;
-    }
-
-    public ArrayList<Buildings> getListOfBuildings() {
-        return listOfBuildings;
-    }
-
     public GroundTypes getGroundType() {
         return groundType;
     }
 
-    public String getTree() {
+    public Materials getTree() {
         return tree;
     }
 
-    public void setTree(String tree) {
+    public void setTree(Materials tree) {
         this.tree = tree;
     }
 }

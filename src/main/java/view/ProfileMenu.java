@@ -14,7 +14,7 @@ import static view.SignupMenuAndLoginMenu.*;
 public class ProfileMenu {
     static  boolean flag=false;
     public void run(String command1) {
-        System.out.println(flag);
+
         String command=new String();
         while (true) {
             if(!flag)
@@ -84,11 +84,6 @@ public class ProfileMenu {
 
 
     private void passwordChange(String command) {
-<<<<<<< HEAD
-        SignupMenuAndLoginMenu.sprater(command);
-        System.out.println(SignupMenuAndLoginMenu.checkPasswordFormat(Objects.requireNonNull
-                (ProfileMenuController.changePassword(oldPassword, newPassword))));
-=======
         SignupMenuController.separator(command);
         CommandsEnum message=ProfileMenuController.changePassword();
         switch (message) {
@@ -112,7 +107,6 @@ public class ProfileMenu {
         }
 
 
->>>>>>> 8d7ed2888b0feb46fe0c430911189bbe618f814f
     }
 
 
@@ -157,8 +151,8 @@ public class ProfileMenu {
     }
 
 
-    private void showHighScore(String command){
-        //TODO showHighScore
+    private void showHighscore(String command){
+        //TODO showHighscore
     }
 
     private void showRank(String commands){
@@ -174,6 +168,4 @@ public class ProfileMenu {
         //TODO showProfile
     }
 
-    public void run(String command) {
-    }
 }

@@ -91,6 +91,33 @@ public class GameMenu {
         }
     }
 
+    public static void printMapDetails(int num, int x, int y) {
+        while (true) {
+            if (num == 1) {
+                System.out.println(Map.showApartOfMap(x, y).getAllUnit());
+                break;
+            } else if (num == 2) {
+                System.out.println(Map.showApartOfMap(x, y).getBuilding());
+                break;
+            } else if (num == 3) {
+                System.out.println(Map.showApartOfMap(x, y).getGroundType());
+                break;
+            }
+            else if (num == 4) {
+                System.out.println("all the military units in this location: "GameMenuController.getAllSoldiers().size());
+                break;
+            } else if (num == 5) {
+                System.out.println("all the buildings in this location: "GameMenuController.getAllBuildings().size());
+                break;
+            }
+            else {
+                System.out.println("can not show details-(your Coordinate is not available)!");
+            }
+
+        }
+    }
+
+
 
     public static void selectUnit(String command) {
         separatorGaming(command);

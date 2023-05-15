@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ProjectAP" />
         <module name="4561" />
+        <module name="repo3" />
       </profile>
     </annotationProcessing>
   </component>

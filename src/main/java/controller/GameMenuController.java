@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 
+import view.Commands;
 import view.GameMenu;
 import view.MainMenu;
 import view.MapMenu;
@@ -24,6 +25,8 @@ public class GameMenuController {
 
     private static int x0;
     private static int y0;
+    private static ArrayList<ArrayList<MilitaryUnits>> allSoldiers = new ArrayList<>();
+    private static ArrayList<Buildings> allBuildings = new ArrayList<>();
 
     public static void showMap(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
@@ -66,59 +69,79 @@ public class GameMenuController {
         }
     }
 
-    public static Scanner input() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner;
-    }
-
-    public static void mapMove(Matcher matcher) {
-        String dir1 = matcher.group("dir1");
-        String dir2 = matcher.group("dir2");
-        String index;
-        switch (dir1) {
+    public static void mapMoveConditions(String dir){
+        switch (dir){
             case "up":
-                showMap(matcher);
+                y0++;
                 break;
             case "down":
-                showMap(x, y - 1);
+                y0--;
                 break;
-            case "left":
-                showMap(x - 1, y);
+            case"left":
+                x0--;
                 break;
             case "right":
-                showMap(x + 1, y);
+                x0++;
                 break;
-        }
-        try {
-            dir2 = matcher.group("dir2");
-
-        } catch (NullPointerException ignored) {
-
         }
     }
 
 
-    /*public static void showDetails(int x, int y) {
-        ArrayList<MilitaryUnits> allSoldiers = new ArrayList<>();
-        ArrayList<Buildings> allBuildings = new ArrayList<>();
-        for () {
-            if(Map.showApartOfMap(x,y).getMilitaryUnit() != null){
-                allSoldiers.add(Map.showApartOfMap(x,y).getMilitaryUnit());
-                System.out.println(Map.showApartOfMap(x,y).getMilitaryUnit());
-            }
-            if(Map.showApartOfMap(x,y).getBuilding() != null){
-                allBuildings.add(Map.showApartOfMap(x,y).getBuilding());
-                System.out.println(Map.showApartOfMap(x,y).getBuilding());
-            }
-            if(!(Materials.valueOf("gold").equals(0))){
-                System.out.println("gold" + ":" + Materials.valueOf("gold"));
-            }
-            System.out.println(Map.showApartOfMap(x,y).getGroundType());
-            ;
-
+    public static void mapMove(Matcher matcher){
+        String dir1 = matcher.group("dir1");
+        mapMoveConditions(dir1);
+        try{
+            String dir2 = matcher.group("dir2");
+            mapMoveConditions(dir2);
         }
-    }*/
-    
+        catch (NullPointerException ignored){
+        }
+        String command = "show map -x "+x0+" -y "+y0;
+        Matcher matcher1 = Commands.getMatcher(command, Commands.SHOW_MAP);
+        showMap(matcher1);
+    }
+
+
+
+    public static void showDetails(int x, int y) {
+        if (x < 0 || x > 20 || y < 0 || y > 20) {
+            GameMenu.printMapDetails(5,0,0);
+        }
+        for (int i = -1; i <= 1; i++) {
+            int x1 = x + i;
+            if (x1 < 0 || x1 > 20) {
+                continue;
+            }
+            for (int j = -1; j <= 1; j++) {
+                int y1 = y + j;
+                if (y1 < 0 || y1 > 20) {
+                    continue;
+                }
+                else {
+                    if (!(Map.showApartOfMap(x1, y1).getAllUnit().isEmpty())) {
+                        allSoldiers.add(Map.showApartOfMap(x, y).getAllUnit());
+                        GameMenu.printMapDetails(1, x1, y1);
+                        break;
+                    } else if (Map.showApartOfMap(x1, y1).getBuilding() != null) {
+                        allBuildings.add(Map.showApartOfMap(x, y).getBuilding());
+                        GameMenu.printMapDetails(2, x1, y1);
+                        break;
+                    }
+                    GameMenu.printMapDetails(3, x1, y1);
+                }
+            }
+        }
+        GameMenu.printMapDetails(4,0,0);
+        GameMenu.printMapDetails(5,0,0);
+    }
+
+    public static ArrayList<ArrayList<MilitaryUnits>> getAllSoldiers() {
+        return allSoldiers;
+    }
+
+    public static ArrayList<Buildings> getAllBuildings() {
+        return allBuildings;
+    }
 
 
     private static Sloldier currentSoldier;

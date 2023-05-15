@@ -68,7 +68,7 @@ public class ProfileMenu {
     }
 
 
-    private void passwordchange(String command) {
+    private void passwordChange(String command) {
         SignupMenuAndLoginMenu.sprater(command);
         System.out.println(SignupMenuAndLoginMenu.checkPasswordFormat(Objects.requireNonNull
                 (ProfileMenuController.changePassword(oldPassword, newPassword))));
@@ -113,8 +113,8 @@ public class ProfileMenu {
     }
 
 
-    private void showHighscore(String command){
-        //TODO showHighscore
+    private void showHighScore(String command){
+        //TODO showHighScore
     }
 
     private void showRank(String commands){
@@ -130,4 +130,6 @@ public class ProfileMenu {
         //TODO showProfile
     }
 
+    public void run(String command) {
+    }
 }

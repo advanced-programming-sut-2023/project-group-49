@@ -1,6 +1,5 @@
 package view;
 
-import model.Product;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -20,6 +19,7 @@ public class MainMenu {
 
     public static void run() {
         while (true) {
+            System.out.println("***");
             String command = getScanner().nextLine();
             Matcher matcher;
             if (command.equals("logout")) {

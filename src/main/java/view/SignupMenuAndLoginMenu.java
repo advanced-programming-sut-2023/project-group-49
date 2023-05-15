@@ -2,6 +2,7 @@ package view;
 
 import controller.LoginMenuController;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,8 +35,12 @@ public class SignupMenuAndLoginMenu {
                 break;
             else if (Commands.getMatcher(command,Commands.REGISTER_VALID) != null)
                 register(command);
-            else if ((matcher =Commands.getMatcher(command, Commands.LOGIN_VALID)) != null)
-                System.out.println(login(matcher));
+            else if ((matcher =Commands.getMatcher(command, Commands.LOGIN_VALID)) != null) {
+                String result=login(matcher);
+                System.out.println(result);
+                if(result.equals("user logged in successfully!"))
+                    return;
+            }
             else if (Commands.getMatcher(command, Commands.FORGOT_PASSWORD) != null)
                 forgotPassword(command);
             else
@@ -54,34 +59,34 @@ public class SignupMenuAndLoginMenu {
                 System.out.println("Username's format is invalid!");
                 break;
             case LENGTH_WEEK_PASSWORD:
-                System.out.println("password at least should be 6 character");
+                System.out.println("password at least should be 6 character!");
                 break;
             case CAPITAL_LETTERS:
-                System.out.println("capital letters doesn't exists");
+                System.out.println("capital letters doesn't exists!");
                 break;
             case SMALL_LETTERS:
-                System.out.println("small letters doesn't exists");
+                System.out.println("small letters doesn't exists!");
                 break;
             case NUMBER_NOT_EXISTS:
-                System.out.println("password should have number");
+                System.out.println("password should have number!");
                 break;
             case INVALID_SPECIAL_CHARACTER:
-                System.out.println("password should hava special character");
+                System.out.println("password should hava special character!");
                 break;
             case PASSWORD_CONFIRMATION_INCORRECT:
-                System.out.println("password confirmation doesn't equal your password");
+                System.out.println("password confirmation doesn't equal your password!");
                 break;
             case EMAIL_EXISTS:
-                System.out.println("email is already exists");
+                System.out.println("email is already exists!");
                 break;
             case EMAIL_FORMAT:
-                System.out.println("email's format is invalid");
+                System.out.println("email's format is invalid!");
                 break;
             case USERNAME_EXISTS:
                 System.out.println("user already exists, you may use this username: "+SignupMenuController.newUsername);
                 break;
-            case EMPTY_FIELD:  //TODO:
-                System.out.println("empty field");
+            case EMPTY_FIELD:
+                System.out.println("empty field!");
                 break;
             case SUCCESS:
                 System.out.println("User has been created successfully!");
@@ -93,12 +98,12 @@ public class SignupMenuAndLoginMenu {
     }
 
 
-    private void securityQuestion (){
+    public static void securityQuestion (){
         System.out.println("Pick your security question: \n1. What is my father’s name? \n" +
                 "2. What was my first pet’s name? \n3. What is my mother’s last name?");
         String command = MainMenu.getScanner().nextLine();
         SignupMenuController.separator(command);
-        SignupMenuController.answerOfSecurityQuestion();
+        System.out.println(SignupMenuController.answerOfSecurityQuestion());
     }
 
 
@@ -119,27 +124,31 @@ public class SignupMenuAndLoginMenu {
     }
 
 
-    private void forgotPassword(String command){
+    private void forgotPassword(String command) {
         SignupMenuController.separator(command);
-        if(User.getUserByUsername(username)!=null) {
-            System.out.println(User.getUserByUsername(username).getPasswordRecoveryQuestion());
+        System.out.println(SignupMenuController.forgotMyPassword());
+        while (true) {
+            String answer = MainMenu.getScanner().nextLine();
+            String message = SignupMenuController.forgotPasswordController(answer);
+            if (message.equals("successful")) {
+                System.out.println("please write new password:");
+                while (true) {
+                    String password = MainMenu.getScanner().nextLine();
 
-        }
-        String answer = MainMenu.getScanner().nextLine();
-        String message= LoginMenuController.forgotPasswordController(answer,username);
-        if (message.equals("successful")){
-            String password = MainMenu.getScanner().nextLine();
-
-            CommandsEnum result = SignupMenuController.checkPasswordFormat(password);
-            if(result != CommandsEnum.SUCCESS) {
-                System.out.println(checkPasswordFormat(result));
+                    CommandsEnum result = SignupMenuController.checkPasswordFormat(password);
+                    if (result != CommandsEnum.SUCCESS) {
+                        System.out.println(checkPasswordFormat(result));
+                    } else {
+                        Objects.requireNonNull(User.getUserByUsername(SignupMenuController.getUsername())).setPassword(password);
+                        SignupMenuController.userDateBase();
+                        SignupMenuController.getNull();
+                        return;
+                    }
+                }
             }
-            else {
-
-                User.getUserByUsername(username).setPassword(password);
+            else{
+                System.out.println(message);
             }
-        } else {
-            System.out.println(message);
         }
     }
 
@@ -148,17 +157,17 @@ public class SignupMenuAndLoginMenu {
     public static String checkPasswordFormat(CommandsEnum commandsEnum){
         switch (commandsEnum){
             case LENGTH_WEEK_PASSWORD:
-                return "password at least should be 6 character";
+                return "password at least should be 6 character!";
             case CAPITAL_LETTERS:
-                return "capital letters doesn't exists";
+                return "capital letters doesn't exists!";
             case SMALL_LETTERS:
-                return "small letters doesn't exists";
+                return "small letters doesn't exists!";
             case NUMBER_NOT_EXISTS:
-                return "password should have number";
+                return "password should have number!";
             case INVALID_SPECIAL_CHARACTER:
-                return "password should hava special character";
+                return "password should hava special character!";
             case SUCCESS:
-                return "password successfully changed";
+                return "password successfully changed!";
             default:
                 return "Invalid command!";
         }
@@ -168,9 +177,9 @@ public class SignupMenuAndLoginMenu {
     public static String chaeckUsername(CommandsEnum commandsEnum){
         switch (commandsEnum){
             case USERNAME_FORMAT_INVALID:
-                return "invalid username entered";
+                return "invalid username entered!";
             case USERNAME_EXISTS:
-                return "username already exists";
+                return "username already exists!";
             default:
                 return "Invalid command!";
         }
@@ -180,9 +189,9 @@ public class SignupMenuAndLoginMenu {
     private String checkEmail(CommandsEnum commandsEnum){
         switch (commandsEnum){
             case EMAIL_FORMAT:
-                return "invalid email entered";
+                return "invalid email entered!";
             case MALE_EXISTS:
-                return "email already exists";
+                return "email already exists!";
             default:
                 return "Invalid command!";
         }
@@ -207,7 +216,10 @@ public class SignupMenuAndLoginMenu {
             String confirm=MainMenu.getScanner().nextLine();
             if (confirm.equals(randomPassword))
                 return;
-            else System.out.println("Your password is wrong");
+            else System.out.println("Your password is wrong!");
         }
+    }
+    public static void print(String input){
+        System.out.println(input);
     }
 }

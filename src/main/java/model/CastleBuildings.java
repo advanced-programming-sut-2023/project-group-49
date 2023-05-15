@@ -1,46 +1,46 @@
 package model;
 
+import controller.GameMenuController;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CastleBuildings extends Buildings {
-    private ArrayList<People> buildingMembers;
     private int capacity;
-
-
-    public CastleBuildings(int x, int y, int health) {
-        super(x, y, health);
+    private String buildingName;
+    private int unitCost;
+    private int ladderManCost;
+    private int engineerCost;
+    public CastleBuildings(String buildingName){
+        this.buildingName=buildingName;
+        this.costs=new ArrayList<>();
+    }
+    @Override
+    public void setUnitCost(String buildingName) {
+        switch (buildingName){
+            case "barracks":
+                this.unitCost=1;
+                break;
+            case "mercenary post":
+                this.unitCost=5;
+                break;
+            case "engineer guild":
+                this.ladderManCost=2;
+                this.engineerCost=5;
+                break;
+        }
     }
 
-    public int defenseForce(BuildingTypeCastle castle){
-
+    public int getEngineerCost() {
+        return this.engineerCost;
     }
 
-    public int buildingPopulation(BuildingTypeCastle castle){
-
+    public int getLadderManCost() {
+        return this.ladderManCost;
     }
 
-    public void changeTheTaxRate(BuildingTypeCastle castle){
-
+    public int getUnitCost() {
+        return this.unitCost;
     }
 
-    public void addBuildingMembers(People people){
-
-    }
-
-    public void addArmourAndWeapon(WeaponWithArmor weapon){
-
-    }
-
-    public ArrayList<People> getBuildingMembers() {
-
-        return buildingMembers;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
 }

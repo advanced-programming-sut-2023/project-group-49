@@ -1,17 +1,14 @@
 package model;
 
+import java.util.ArrayList;
+
 public class FarmBuildings extends Buildings{
-    private Materials product;
+    private String buildingName;
 
-    public FarmBuildings(int x, int y, int health) {
-        super(x, y, health);
+    public FarmBuildings(String buildingName){
+        this.buildingName=buildingName;
+        this.costs=new ArrayList<>();
     }
 
-    public void sendProduct(){
 
-    }
-
-    public Materials getProduct() {
-        return product;
-    }
 }

@@ -1,74 +1,45 @@
 package model;
 
-import com.sun.xml.internal.bind.v2.TODO;
-
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.HashMap;
 
- public class Buildings {
+public class Buildings {
     private int x;
     private int y;
-   /* private BuildingTypes buildingType;*/ // TODO
-    private int cost;
     private int numberOfWorkers;
     private int health;
     private Map map;
     private int popularityRate;
     private int constants;
     private static ArrayList<Buildings> allTheBuildings;
-
-    public Buildings(int x, int y, int health) {
-        this.x = x;
-        this.y = y;
-        this.health = health;
-    }
-
-
-    public static void addBuilding(int x, int y, int health){
-        allTheBuildings.add(new Buildings(x, y, health));
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public int getNumberOfWorkers() {
-        return numberOfWorkers;
-    }
-
-    public Map getMap() {
-        return map;
-    }
-
-    public int getPopularityRate() {
-        return popularityRate;
-    }
-
-    public int getConstants() {
-        return constants;
-    }
-
-    public static ArrayList<Buildings> getAllTheBuildings() {
-        return allTheBuildings;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
+    ArrayList<Cost>costs;
+    private Player player;
+    private String buildingName;
     public void setNumberOfWorkers(int numberOfWorkers) {
         this.numberOfWorkers = numberOfWorkers;
     }
 
-    public void setMap(Map map) {
-        this.map = map;
+    public ArrayList<Cost> getCosts() {
+        return this.costs;
+    }
+    public Cost getCostByName(String name){
+        for(Cost cost:this.costs){
+            if(cost.getName().equals(name)){
+                return cost;
+            }
+        }
+        return null;
     }
 
-    public void setPopularityRate(int popularityRate) {
-        this.popularityRate = popularityRate;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setConstants(int constants) {
-        this.constants = constants;
+    public String getBuildingName() {
+        return buildingName;
+    }
+
+    public void setUnitCost(String buildingName){
+
     }
 }

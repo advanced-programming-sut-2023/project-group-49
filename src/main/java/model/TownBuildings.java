@@ -1,17 +1,15 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class TownBuildings extends Buildings{
-    public int popularityRate;
+    private String buildingName;
 
-    public TownBuildings(int x, int y, int health) {
-        super(x, y, health);
+    public TownBuildings(String buildingName){
+        this.buildingName=buildingName;
+        this.costs=new ArrayList<>();
     }
 
-    public void increasePopularityRate(BuildingTypeTown building) {
 
-    }
-
-    public void populationIncrease(BuildingTypeTown building){
-
-    }
 }

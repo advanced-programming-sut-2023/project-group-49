@@ -1,17 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+
 public class IndustryBuildings extends Buildings{
-    public int popularityRate;
-
-    public IndustryBuildings(int x, int y, int health) {
-        super(x, y, health);
-    }
-
-    public boolean map(BuildingTypeIndustry){
-
-    }
-
-    public void increasePopularityRate(BuildingTypeIndustry building) {
-
+    private String buildingName;
+    public IndustryBuildings(String buildingName){
+        this.buildingName=buildingName;
+        this.costs=new ArrayList<>();
     }
 }

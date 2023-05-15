@@ -4,8 +4,12 @@ import model.User;
 import org.w3c.dom.ls.LSOutput;
 import view.CommandsEnum;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,6 +32,8 @@ public class SignupMenuController {
     static String passwordConfirmation;
     static String oldPassword;
     static String newPassword;
+    static int randomNumber;
+
 
 
     public static CommandsEnum userCreator() {
@@ -155,7 +161,9 @@ public class SignupMenuController {
             user=LoginMenuController.currentUser;
         else user=User.getUserByUsername(username);
         jsonObject.put("username", user.getUsername());
-        jsonObject.put("password", user.getPassword());
+        String password=encrypt(user.getPassword());
+
+        jsonObject.put("password", password);
         jsonObject.put("email", user.getEmail());
         try {
             jsonObject.put("slogan", user.getSlogan());
@@ -355,4 +363,79 @@ public class SignupMenuController {
     public static String getSlogan() {
         return slogan;
     }
+    public static void captcha() {
+        int width = 100;
+        int height = 30;
+        Random random = new Random();
+        while (true) {
+            int randomDigitNumber;
+            while (true) {
+                randomDigitNumber = random.nextInt(8);
+                if (randomDigitNumber >= 4)
+                    break;
+            }
+            randomNumber = random.nextInt((int) Math.pow((double) 10, (double) randomDigitNumber));
+            if (randomNumber > 1000)
+                break;
+
+        }
+        String randomString = Integer.toString(randomNumber);
+        StringBuilder randomString2 = new StringBuilder();
+        for (int i = 0; i < randomString.length(); i++) {
+            int randomNum = random.nextInt(10);
+            randomString2.append(randomString.charAt(i));
+            if (randomNum % 2 == 0) {
+                randomString2.append("$");
+            }
+
+        }
+
+        String randomString3 = randomString2.toString();
+        //BufferedImage image = ImageIO.read(new File("/Users/mkyong/Desktop/logo.jpg"));
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics g = image.getGraphics();
+        g.setFont(new Font("SansSerif", Font.PLAIN, 16));
+
+        Graphics2D graphics = (Graphics2D) g;
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics.drawString(randomString3, 1, 20);
+        for (int y = 0; y < height; y++) {
+            StringBuilder sb = new StringBuilder();
+            for (int x = 0; x < width; x++) {
+
+                sb.append(image.getRGB(x, y) == -16777216 ? " " : "$");
+
+            }
+
+            if (sb.toString().trim().isEmpty()) {
+                continue;
+            }
+
+            SignupMenuAndLoginMenu.print(sb.toString());
+        }
+    }
+    public static String checkCaptcha(int number){
+        if(number!=randomNumber)
+            return "number isn't correct!";
+        return "successful";
+    }
+    public static String encrypt(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] messageDigest = md.digest(input.getBytes());
+
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++) {
+                String hex = Integer.toHexString(0xff & messageDigest[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

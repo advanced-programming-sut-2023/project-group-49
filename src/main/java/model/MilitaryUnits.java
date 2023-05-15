@@ -17,13 +17,6 @@ abstract public class MilitaryUnits {
         this.defensePower = defensePower;
     }
 
-    public static void addMilitaryUnit(TypeOfUnits type, Grade speed, Grade attackPower, Grade defensePower){
-        allTheMilitaryUnits.add(new MilitaryUnits(type, speed, attackPower, defensePower));
-    }
-
-    public void fight(UnitAction action){
-
-    }
 
 
     abstract public void distanceShot();

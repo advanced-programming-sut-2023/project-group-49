@@ -1,5 +1,6 @@
 package controller;
 
+import model.User;
 import view.CommandsEnum;
 
 public class ProfileMenuController {
@@ -43,6 +44,26 @@ public class ProfileMenuController {
     public static CommandsEnum removeSlogan(){
         LoginMenuController.currentUser.setSlogan(null);
         return CommandsEnum.SUCCESS;
+    }
+    public static User showHighScore(String command){
+        int max=0;
+        User user = null;
+        for(int i=0;i<User.getAllUsers().size();i++){
+            if(User.getAllUsers().get(i).getScore()>max){
+                user=User.getAllUsers().get(i);
+            }
+        }
+        return user;
+    }
+    public static String showSlogan(){
+        String slogan=new String();
+        try {
+            slogan=LoginMenuController.currentUser.getSlogan();
+        }catch (NullPointerException ignored){
+            return "user doesn't have slogan";
+        }
+        return  slogan;
+
     }
 
 }

@@ -10,6 +10,8 @@ public class User {
     private String slogan;
     private String passwordRecoveryQuestion;
     private String answer;
+    private int score;
+
 
     private static ArrayList<User> allUsers ;
     private final int userId;
@@ -117,5 +119,13 @@ public class User {
 
     public int getUserId() {
         return userId;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

@@ -1,8 +1,10 @@
 package view;
 
+import controller.GameMenuController;
 import controller.LoginMenuController;
 import controller.ProfileMenuController;
 import controller.SignupMenuController;
+import model.User;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -40,16 +42,16 @@ public class ProfileMenu {
             else if (Commands.getMatcher(command, Commands.REMOVE_SLOGAN) != null)
                 sloganRemove();
             else if (Commands.getMatcher(command, Commands.HIGHSCORE_DISPLAY) != null)
-                showHighscore(command);
+                System.out.println(ProfileMenuController.showHighScore(command).getUsername());
             else if (Commands.getMatcher(command, Commands.RANK_DISPLAY) != null)
                 showRank(command);
             else if (Commands.getMatcher(command, Commands.SLOGAN_DISPLAY) != null)
-                showSlogan(command);
+                System.out.println( ProfileMenuController.showSlogan());
             else if (Commands.getMatcher(command, Commands.PROFILE_DISPLAY) != null)
                 showProfile(command);
             else
                 System.out.println("Invalid command!");
-            SignupMenuController.userDateBase();
+            SignupMenuController.userDataBase();
             SignupMenuController.getNull();
 
 
@@ -150,9 +152,7 @@ public class ProfileMenu {
     }
 
 
-    private void showHighscore(String command){
-        //System.out.println(currentPlayer.getScores().max);
-    }
+
 
     private void showRank(String commands){
         //System.out.println(Player.getPlayers().max());
@@ -164,7 +164,10 @@ public class ProfileMenu {
 
 
     private void showProfile(String commands){
-        //TODO showProfile
+        System.out.println("username: "+LoginMenuController.currentUser.getUsername());
+        System.out.println("password: "+LoginMenuController.currentUser.getPassword());
+        System.out.println("email: "+LoginMenuController.currentUser.getEmail());
+
     }
 
 }

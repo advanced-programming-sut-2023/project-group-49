@@ -156,7 +156,7 @@ public class SignupMenuAndLoginMenu {
                         System.out.println(checkPasswordFormat(result));
                     } else {
                         Objects.requireNonNull(User.getUserByUsername(SignupMenuController.getUsername())).setPassword(password);
-                        SignupMenuController.userDateBase();
+                        SignupMenuController.userDataBase();
                         SignupMenuController.getNull();
                         return;
                     }

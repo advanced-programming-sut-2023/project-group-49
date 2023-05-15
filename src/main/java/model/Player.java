@@ -3,8 +3,8 @@ package model;
 import java.util.ArrayList;
 
 public class Player extends User {
-    private int score;
-    private static ArrayList<Integer>scores;
+
+
     public static ArrayList<Player>players;
     private ArrayList<Cost>costs;
     public static ArrayList<Sloldier> sloldiers;
@@ -16,9 +16,7 @@ public class Player extends User {
         return players;
     }
 
-    public static ArrayList<Integer> getScores() {
-        return scores;
-    }
+
 
     public static ArrayList<Sloldier> getSloldiers() {
         return sloldiers;

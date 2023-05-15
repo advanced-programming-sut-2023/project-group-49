@@ -29,7 +29,7 @@ public class MainMenu {
                 profileMenu.run(command);
             }else{
                 GameMenu gameMenu=new GameMenu();
-                gameMenu.run();
+                gameMenu.run(command);
             }
 
 
@@ -37,28 +37,7 @@ public class MainMenu {
     }
 
 
-    /*public static String enterMenu(Matcher matcher){
-        String menuName = matcher.group("menuName");
-        CommandsEnum messages = ChoosingMenu.enteringMenu(menuName);
-        switch (messages){
-            case INVALID_MENU_ENTERED:
-                return ("enter menu failed: invalid menu name");
-            case NO_ACCESS:
-                return ("enter menu failed: access denied");
-            case SUCCESS:
-                switch (menuName){
-                    case "customer menu":
-                        ProfileMenu.run();
-                    case "restaurant admin menu":
-                        MapMenu.run();
-                    case "Snappfood admin menu":
-                        GameMenu.run();
-                }
-                return ("enter menu successful: You are in the " +menuName +"!");
-            default:
-                return ("invalid command!");
-        }
-    }*/
+
 
 
 }

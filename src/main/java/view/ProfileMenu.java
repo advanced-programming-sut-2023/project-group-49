@@ -14,7 +14,7 @@ import static view.SignupMenuAndLoginMenu.*;
 public class ProfileMenu {
     static  boolean flag=false;
     public void run(String command1) {
-
+        System.out.println(flag);
         String command=new String();
         while (true) {
             if(!flag)

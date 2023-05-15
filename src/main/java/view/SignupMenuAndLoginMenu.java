@@ -36,8 +36,14 @@ public class SignupMenuAndLoginMenu {
             else if (Commands.getMatcher(command,Commands.REGISTER_VALID) != null)
                 register(command);
             else if ((matcher =Commands.getMatcher(command, Commands.LOGIN_VALID)) != null) {
+
                 String result=login(matcher);
                 System.out.println(result);
+                System.out.println(LoginMenuController.getIncorrectPassword());
+                if(LoginMenuController.getIncorrectPassword()==4) {
+                    System.out.println("please wait "+LoginMenuController.getWaitTime()+" seconds:");
+                    System.out.println(LoginMenuController.waitIncorrectPassword());
+                }
                 if(result.equals("user logged in successfully!"))
                     return;
             }
@@ -54,7 +60,6 @@ public class SignupMenuAndLoginMenu {
         SignupMenuController.separator(command);
         CommandsEnum message = SignupMenuController.userCreator();
         switch (message) {
-            //TODO:check errors
             case USERNAME_FORMAT_INVALID:
                 System.out.println("Username's format is invalid!");
                 break;
@@ -104,6 +109,17 @@ public class SignupMenuAndLoginMenu {
         String command = MainMenu.getScanner().nextLine();
         SignupMenuController.separator(command);
         System.out.println(SignupMenuController.answerOfSecurityQuestion());
+        System.out.println("write number:");
+        while (true) {
+            SignupMenuController.captcha();
+            int number = MainMenu.getScanner().nextInt();
+            String result=SignupMenuController.checkCaptcha(number);
+            if(result.equals("successful"))
+                break;
+            System.out.println(result);
+        }
+        System.out.println("Your registration is complete");
+
     }
 
 

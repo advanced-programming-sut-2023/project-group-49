@@ -19,8 +19,9 @@ public enum Commands {
     RANK_DISPLAY("profile display rank"),
     SLOGAN_DISPLAY("profile display slogan"),
     PROFILE_DISPLAY("profile display"),
-    ENTER_MENU("enter menu (?<manuName>.+)");
-
+    ENTER_MENU("enter menu (?<manuName>.+)"),
+    SHOW_MAP("show map -x (?<x>[0-9]+) -y (?<y>[0-9]+)"),
+    MOVE_MAP("map (?<dir1>\\S+)\\s?(?<dir2>\\S*)");
 
     private String regex;
 

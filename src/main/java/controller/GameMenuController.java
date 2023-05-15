@@ -2,15 +2,12 @@ package controller;
 
 import model.Buildings;
 import model.Map;
-<<<<<<< HEAD
 import model.Materials;
 import model.MilitaryUnits;
-import org.omg.CORBA.Request;
-=======
+
 import model.Player;
 import model.Sloldier;
 import model.Soldiers;
->>>>>>> 8d7ed2888b0feb46fe0c430911189bbe618f814f
 import view.GameMenu;
 import view.MapMenu;
 

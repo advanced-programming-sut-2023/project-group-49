@@ -20,10 +20,9 @@ public enum Commands {
     SLOGAN_DISPLAY("profile display slogan"),
     PROFILE_DISPLAY("profile display"),
     ENTER_MENU("enter menu (?<manuName>.+)"),
-<<<<<<< HEAD
+
     SHOW_MAP("show map -x (?<x>[0-9]+) -y (?<y>[0-9]+)"),
-    MOVE_MAP("map (?<dir1>\\S+)\\s?(?<dir2>\\S*)");
-=======
+    MOVE_MAP("map (?<dir1>\\S+)\\s?(?<dir2>\\S*)"),
     SELECTUNIT("select unit.+"),
     MOVEUNITTO("move unit to.+"),
     PATROL_UNIT("patrol unit.+"),
@@ -35,7 +34,6 @@ public enum Commands {
     BUILD("build.+"),
     DISBANDUNIT("disband unit");
 
->>>>>>> 8d7ed2888b0feb46fe0c430911189bbe618f814f
 
     private String regex;
 

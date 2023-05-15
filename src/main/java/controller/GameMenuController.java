@@ -510,7 +510,7 @@ public class GameMenuController {
     public String readFile(String startString) {
         String data = new String();
         try {
-            File myObj = new File("filename.txt");
+            File myObj = new File("BuildingsInfo.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 data = myReader.nextLine();

@@ -6,11 +6,14 @@ import view.CommandsEnum;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,7 +80,7 @@ public class SignupMenuController {
         if(password.equals("random"))
             randomPassword();
 
-        userDateBase();
+        userDataBase();
 
 
         return CommandsEnum.SUCCESS;
@@ -146,7 +149,7 @@ public class SignupMenuController {
         }
         try {
             User.getUserByUsername(username).setAnswer(answer);
-            userDateBase();
+            userDataBase();
             getNull();
         }catch (NullPointerException ignored){
             return "";
@@ -154,7 +157,7 @@ public class SignupMenuController {
 
         return "security question picked";
     }
-    public static void userDateBase(){
+    public static void userDataBase(){
         JSONObject jsonObject = new JSONObject();
         User user;
         if(LoginMenuController.currentUser!=null)
@@ -175,7 +178,7 @@ public class SignupMenuController {
         jsonObject.put("Question",user.getPasswordRecoveryQuestion());
         jsonObject.put("answer",user.getAnswer());
         try {
-            FileWriter file = new FileWriter("G:/"+user.getUserId()+".json");
+            FileWriter file = new FileWriter("Database:/"+user.getUserId()+".json");
             file.write(jsonObject.toJSONString());
             file.close();
         } catch (IOException e) {
@@ -260,8 +263,31 @@ public class SignupMenuController {
     }
     public static void randomSlogan(){
         String randomSlogan=null;
-        //TODO:create file and write slogan
-        User.getUserByUsername(username).setSlogan(randomSlogan);
+        Random random=new Random();
+        int lineNumber=random.nextInt(19);
+        int counter=0;
+        try {
+            File myObj = new File("Slogan.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                randomSlogan = myReader.nextLine();
+                counter++;
+                if(counter==lineNumber) {
+                    break;
+                }
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        try {
+            User.getUserByUsername(username).setSlogan(randomSlogan);
+        }catch (NullPointerException ignored){
+
+        }
+
+        SignupMenuAndLoginMenu.print("you random Slogan is : "+randomSlogan);
     }
     public static void separator(String c) {
         String pattern2 = "-(?<option>[upenqacsow]) (?<name>\"((?<=\").*?(?=\"))\"|\\S+)";

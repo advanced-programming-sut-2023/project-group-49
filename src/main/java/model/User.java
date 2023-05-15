@@ -15,7 +15,7 @@ public class User {
     private final int userId;
     private static int lastUserId;
     static {
-        lastUserId=0;
+        lastUserId=1;
         allUsers=new ArrayList<>();
     }
 

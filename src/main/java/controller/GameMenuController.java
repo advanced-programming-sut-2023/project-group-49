@@ -50,7 +50,7 @@ public class GameMenuController {
                         GameMenu.printMap(1, 0, 0);
                         break;
                     } else if (Map.showApartOfMap(x1, y1).getBuilding() != null) {
-                        if (Map.showApartOfMap(x1, y1).getBuilding().) {
+                        if (Map.showApartOfMap(x1, y1).getBuilding().getClass().getName().equals("CastleBuildings")) {
                             //TODO require "w" enum
                             GameMenu.printMap(2, 0, 0);
                             break;
@@ -69,15 +69,15 @@ public class GameMenuController {
         }
     }
 
-    public static void mapMoveConditions(String dir){
-        switch (dir){
+    public static void mapMoveConditions(String dir) {
+        switch (dir) {
             case "up":
                 y0++;
                 break;
             case "down":
                 y0--;
                 break;
-            case"left":
+            case "left":
                 x0--;
                 break;
             case "right":
@@ -87,25 +87,23 @@ public class GameMenuController {
     }
 
 
-    public static void mapMove(Matcher matcher){
+    public static void mapMove(Matcher matcher) {
         String dir1 = matcher.group("dir1");
         mapMoveConditions(dir1);
-        try{
+        try {
             String dir2 = matcher.group("dir2");
             mapMoveConditions(dir2);
+        } catch (NullPointerException ignored) {
         }
-        catch (NullPointerException ignored){
-        }
-        String command = "show map -x "+x0+" -y "+y0;
+        String command = "show map -x " + x0 + " -y " + y0;
         Matcher matcher1 = Commands.getMatcher(command, Commands.SHOW_MAP);
         showMap(matcher1);
     }
 
 
-
     public static void showDetails(int x, int y) {
         if (x < 0 || x > 20 || y < 0 || y > 20) {
-            GameMenu.printMapDetails(5,0,0);
+            GameMenu.printMapDetails(5, 0, 0);
         }
         for (int i = -1; i <= 1; i++) {
             int x1 = x + i;
@@ -116,8 +114,7 @@ public class GameMenuController {
                 int y1 = y + j;
                 if (y1 < 0 || y1 > 20) {
                     continue;
-                }
-                else {
+                } else {
                     if (!(Map.showApartOfMap(x1, y1).getAllUnit().isEmpty())) {
                         allSoldiers.add(Map.showApartOfMap(x, y).getAllUnit());
                         GameMenu.printMapDetails(1, x1, y1);
@@ -131,8 +128,8 @@ public class GameMenuController {
                 }
             }
         }
-        GameMenu.printMapDetails(4,0,0);
-        GameMenu.printMapDetails(5,0,0);
+        GameMenu.printMapDetails(4, 0, 0);
+        GameMenu.printMapDetails(5, 0, 0);
     }
 
     public static ArrayList<ArrayList<MilitaryUnits>> getAllSoldiers() {
@@ -317,7 +314,6 @@ public class GameMenuController {
 
     public static void digTunnel(int x, int y) {
         if (currentSoldier.getType().getName().equals("Tunneler")) {
-            //TODO dig tunnel in thet part of map
             GameMenu.print("digging tunnel successfully!!");
         } else
             GameMenu.print("this unit can not dig tunnel!");
@@ -325,21 +321,15 @@ public class GameMenuController {
 
     public static void build(String equipment) {
         if (currentSoldier.getType().getName().equals("Engineer")) {
-            //TODO build equipment
             GameMenu.print("building equipment successfully!!");
         } else
             GameMenu.print("this unit can not dig tunnel!");
     }
 
     public static void disbandUnit() {
-//        currentSoldier.setX();
-//        currentSoldier.setY();
         GameMenu.print("this unit went to village!");
     }
 
-    public void DFS() {
-
-    }
 
     public void createGame() {
         game = new Game();
@@ -396,48 +386,61 @@ public class GameMenuController {
         while (matcher1.find()) {
             switch (matcher1.group("buildingType")) {
                 case "castle": {
-                    if (game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GROUND && game.getMap().getMainMap()[x][y]
-                            .getGroundType() != GroundTypes.GARAVELGROUND && game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GRASS)
+                    if (game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GROUND && game.getMap().
+                            getMainMap()[x][y]
+                            .getGroundType() != GroundTypes.GARAVELGROUND && game.getMap().getMainMap()[x][y].
+                            getGroundType() != GroundTypes.GRASS)
                         return "you can't build here ";
                     CastleBuildings castleBuildings = new CastleBuildings(buildingName);
                     game.getMap().getMainMap()[x][y].setBuilding(castleBuildings);
                     while (matcher.find()) {
-                        castleBuildings.getCosts().add(new Cost(matcher.group("name"), Integer.parseInt(matcher.group("amount"))));
+                        castleBuildings.getCosts().add(new Cost(matcher.group("name"), Integer.parseInt(matcher.group
+                                ("amount"))));
                     }
                 }
                 case "farm": {
-                    if (game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GRASS && game.getMap().getMainMap()[x][y]
+                    if (game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GRASS && game.getMap().
+                            getMainMap()[x][y]
                             .getGroundType() != GroundTypes.DENSEGRASELAND)
                         return "you can't build here";
                     FarmBuildings farmBuildings = new FarmBuildings(buildingName);
                     game.getMap().getMainMap()[x][y].setBuilding(farmBuildings);
                     while (matcher.find()) {
-                        farmBuildings.getCosts().add(new Cost(matcher.group("name"), Integer.parseInt(matcher.group("amount"))));
+                        farmBuildings.getCosts().add(new Cost(matcher.group("name"), Integer.parseInt(matcher.group
+                                ("amount"))));
                     }
                 }
-                case "food processing" : {
-                    if (game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GROUND && game.getMap().getMainMap()[x][y]
-                            .getGroundType() != GroundTypes.GARAVELGROUND && game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GRASS)
+                case "food processing": {
+                    if (game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GROUND && game.getMap().
+                            getMainMap()[x][y]
+                            .getGroundType() != GroundTypes.GARAVELGROUND && game.getMap().getMainMap()[x][y].
+                            getGroundType() != GroundTypes.GRASS)
                         return "you can't build here ";
-                    FoodProcessingBuildingsAndWeaponBuildings foodProcessingBuildingsAndWeaponBuildings = new FoodProcessingBuildingsAndWeaponBuildings(buildingName);
+                    FoodProcessingBuildingsAndWeaponBuildings foodProcessingBuildingsAndWeaponBuildings = new
+                            FoodProcessingBuildingsAndWeaponBuildings(buildingName);
                     game.getMap().getMainMap()[x][y].setBuilding(foodProcessingBuildingsAndWeaponBuildings);
                     while (matcher.find()) {
-                        foodProcessingBuildingsAndWeaponBuildings.getCosts().add(new Cost(matcher.group("name"), Integer.parseInt(matcher.group("amount"))));
+                        foodProcessingBuildingsAndWeaponBuildings.getCosts().add(new Cost(matcher.group("name"),
+                                Integer.parseInt(matcher.group("amount"))));
                     }
                 }
                 case "town": {
-                    if (game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GROUND && game.getMap().getMainMap()[x][y]
-                            .getGroundType() != GroundTypes.GARAVELGROUND && game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GRASS)
+                    if (game.getMap().getMainMap()[x][y].getGroundType() != GroundTypes.GROUND && game.getMap().
+                            getMainMap()[x][y]
+                            .getGroundType() != GroundTypes.GARAVELGROUND && game.getMap().getMainMap()[x][y]
+                            .getGroundType() != GroundTypes.GRASS)
                         return "you can't build here ";
                     TownBuildings townBuildings = new TownBuildings(buildingName);
                     game.getMap().getMainMap()[x][y].setBuilding(townBuildings);
                     while (matcher.find()) {
-                        townBuildings.getCosts().add(new Cost(matcher.group("name"), Integer.parseInt(matcher.group("amount"))));
+                        townBuildings.getCosts().add(new Cost(matcher.group("name"), Integer.parseInt(matcher.group
+                                ("amount"))));
                     }
                 }
                 case "industry": {
                     try {
-                        if (!Industry.getGroundTypeByName(buildingName).getGroundTypes().equals(game.getMap().getMainMap()[x][y].getGroundType()))
+                        if (!Industry.getGroundTypeByName(buildingName).getGroundTypes().equals(game.getMap().getMainMap()
+                                [x][y].getGroundType()))
                             return "you can't build here";
                     } catch (NullPointerException ignored) {
 
@@ -445,7 +448,8 @@ public class GameMenuController {
                     IndustryBuildings industryBuildings = new IndustryBuildings(buildingName);
                     game.getMap().getMainMap()[x][y].setBuilding(industryBuildings);
                     while (matcher.find()) {
-                        industryBuildings.getCosts().add(new Cost(matcher.group("name"), Integer.parseInt(matcher.group("amount"))));
+                        industryBuildings.getCosts().add(new Cost(matcher.group("name"), Integer.parseInt
+                                (matcher.group("amount"))));
                     }
                 }
             }
@@ -476,7 +480,8 @@ public class GameMenuController {
         String buildingName = game.getMap().getMainMap()[buildingX][buildingY].getBuilding().getBuildingName();
         if (game.getMap().getMainMap()[buildingX][buildingY].getBuilding().getClass().getName().equals("CastleBuilding")) {
             try {
-                CastleBuildings castleBuildings = (CastleBuildings) game.getMap().getMainMap()[buildingX][buildingY].getBuilding();
+                CastleBuildings castleBuildings = (CastleBuildings) game.getMap().getMainMap()[buildingX][buildingY].
+                        getBuilding();
                 castleBuildings.setUnitCost(buildingName);
                 int unitCost;
                 int ladderManCost;
@@ -520,6 +525,44 @@ public class GameMenuController {
             e.printStackTrace();
         }
         return data;
+    }
+
+    public static void separateUsers(String command) {
+        String pattern2 = "-(?<option>[u]) (?<name>\"((?<=\").*?(?=\"))\"|\\S+)";
+        Pattern pattern = Pattern.compile(pattern2);
+        Matcher matcher = pattern.matcher(command);
+        while (matcher.find()) {
+            users.add(matcher.group("name"));
+        }
+    }
+
+    public String addUserToGame() {
+        try {
+            for (String user : users) {
+                if (User.getUserByUsername(user) == null)
+                    return "user" + user + " doesn't exist";
+                Player player = (Player) User.getUserByUsername(user);
+                game = new Game();
+                game.getPlayers().add(player);
+            }
+        } catch (NullPointerException ignored) {
+            return "no other player exist";
+        }
+        return "users successfully added to game";
+    }
+
+    public String changeTurn() {
+
+        try {
+            int playerNumber = game.getPlayers().indexOf(currentPlayer);
+            if (playerNumber == game.getPlayers().size())
+                currentPlayer = game.getPlayers().get(0);
+            else currentPlayer = game.getPlayers().get(playerNumber + 1);
+
+        } catch (NullPointerException ignored) {
+            return "no game has started yet";
+        }
+        return "turn changed successfully";
     }
 
 }

@@ -14,7 +14,6 @@ import static view.SignupMenuAndLoginMenu.*;
 public class ProfileMenu {
     static  boolean flag=false;
     public void run(String command1) {
-        System.out.println(flag);
         String command=new String();
         while (true) {
             if(!flag)
@@ -152,15 +151,15 @@ public class ProfileMenu {
 
 
     private void showHighscore(String command){
-        //TODO showHighscore
+        //System.out.println(currentPlayer.getScores().max);
     }
 
     private void showRank(String commands){
-        //TODO showRank
+        //System.out.println(Player.getPlayers().max());
     }
 
     private void showSlogan(String commands){
-        //TODO showSlogan
+        // System.out.println(currentPlayer.getSlogan());
     }
 
 

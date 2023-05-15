@@ -30,7 +30,7 @@ public class GameMenu {
 
 
     public static void run(String command1) {
-        GameMenuController.separatorUsers(command1);
+        GameMenuController.separateUsers(command1);
         while (true) {
             String command = MainMenu.getScanner().nextLine();
             Matcher matcher;
@@ -104,10 +104,10 @@ public class GameMenu {
                 break;
             }
             else if (num == 4) {
-                System.out.println("all the military units in this location: "GameMenuController.getAllSoldiers().size());
+                System.out.println("all the military units in this location: "+GameMenuController.getAllSoldiers().size());
                 break;
             } else if (num == 5) {
-                System.out.println("all the buildings in this location: "GameMenuController.getAllBuildings().size());
+                System.out.println("all the buildings in this location: "+GameMenuController.getAllBuildings().size());
                 break;
             }
             else {

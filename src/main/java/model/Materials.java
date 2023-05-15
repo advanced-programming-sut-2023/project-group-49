@@ -3,7 +3,13 @@ package model;
 public enum Materials {
     GOLD("gold", 0),
     WOOD("wood",0),
-    STONE("stone",0);
+    STONE("stone",0),
+    CHEESE("cheese",0),
+    MEET("meet",0),
+    BREAD("bread",0),
+    APPLE("apple",0),
+    WHEAT("wheat",0);
+
 
     private String name;
     private Player player;

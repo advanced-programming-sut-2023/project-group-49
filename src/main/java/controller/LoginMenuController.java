@@ -19,7 +19,8 @@ public class LoginMenuController {
 
         }
         try {
-            if (!stayLoggedIn&&User.getUserByUsername(username) == null || !User.getUserByUsername(username).isPasswordCorrect(password)) {
+            if (!stayLoggedIn&&User.getUserByUsername(username) == null || !User.getUserByUsername(username).
+                    isPasswordCorrect(password)) {
                 return CommandsEnum.INVALID_USERNAME_OR_PASSWORD;
             }
         }catch (NullPointerException ignored){

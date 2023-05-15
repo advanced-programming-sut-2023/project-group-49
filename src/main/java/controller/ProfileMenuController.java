@@ -44,4 +44,5 @@ public class ProfileMenuController {
         LoginMenuController.currentUser.setSlogan(null);
         return CommandsEnum.SUCCESS;
     }
+
 }

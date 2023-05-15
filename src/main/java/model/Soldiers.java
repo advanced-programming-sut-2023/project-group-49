@@ -66,6 +66,49 @@ public enum Soldiers {
 
     }
 
+    public static Soldiers getSoldiersByName(String name){
+        switch (name){
+            case "Archer":
+                return ARCHER;
+            case "Knight":
+                return KNIGHT;
+            case "Slaves":
+                return SLAVES;
+            case "Macemen":
+                return MACEMEN;
+            case "Pikemen":
+                return PIKEMEN;
+            case "Engineer":
+                return ENGINEER;
+            case "Spearmen":
+                return SPEARMEN;
+            case "Tunneler":
+                return TUNNELER;
+            case "Laddermen":
+                return LADDERMEN;
+            case "Black Monk":
+                return BLACK_MONCK;
+            case "Archer Bow":
+                return ARCHER_BOW;
+            case "Slingers":
+                return SLINGERS;
+            case "Assassins":
+                return ASSASSINS;
+            case "Crossbowmen":
+                return CROSSBOWMEN;
+            case "Swordsmen":
+                return SWORDSMEN;
+            case "Horse Archers":
+                return HORSE_ARCHERS;
+            case "Arabian Swordsmen":
+                return ARABIAN_SWORDSMEN;
+            case "Fire Throwers":
+                return FIRE_THROWERS;
+            default:
+                return null;
+        }
+    }
+
     public String getName() {
         return name;
     }

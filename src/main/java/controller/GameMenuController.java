@@ -9,6 +9,7 @@ import model.Player;
 import model.Sloldier;
 import model.Soldiers;
 import view.GameMenu;
+import view.MainMenu;
 import view.MapMenu;
 
 import java.util.ArrayList;
@@ -139,7 +140,8 @@ public class GameMenuController {
     public static void selectUnit(int x, int y, Soldiers type){
         Sloldier sloldier = new Sloldier(x,y,type);
         setCurrentSoldier(sloldier);
-
+        currentSoldier.setPlayer(currentPlayer);
+        GameMenu.print("unit selected successfully!");
     }
     public static void moveUnitTo(int x,int y){
         int signX;
@@ -157,14 +159,14 @@ public class GameMenuController {
         while (true){
             if(currentSoldier.getX()!=x){
                 currentSoldier.setX(currentSoldier.getX()+signX);
-                System.out.println("harkat ofoghi");
+                GameMenu.print("harkat ofoghi");
             }
             if(currentSoldier.getY()!=y){
                 currentSoldier.setY(currentSoldier.getY()+signY);
-                System.out.println("harkat amodi");
+                GameMenu.print("harkat amodi");
             }
             if(currentSoldier.getX()==x && currentSoldier.getY()==y){
-                System.out.println("arrived " + currentSoldier.getX()+" " + currentSoldier.getY());
+                GameMenu.print("arrived " + currentSoldier.getX()+" " + currentSoldier.getY());
                 break;
             }
         }
@@ -177,8 +179,8 @@ public class GameMenuController {
 
         while (i<=100) {
             if(i==50){
-                System.out.println("soldiers are tired! you want them to continue?");
-                String answer= GameMenu.getScanner().nextLine();
+                GameMenu.print("soldiers are tired! you want them to continue?");
+                String answer= MainMenu.getScanner().nextLine();
                 if(answer.equals("no")){
                     break;
                 }
@@ -207,14 +209,14 @@ public class GameMenuController {
             currentSoldier.setY(y1);
             if (currentSoldier.getX() != x2) {
                 currentSoldier.setX(currentSoldier.getX() + signX);
-                System.out.println("harkat ofoghi");
+                GameMenu.print("harkat ofoghi");
             }
             if (currentSoldier.getY() != y2) {
                 currentSoldier.setY(currentSoldier.getY() + signY);
-                System.out.println("harkat amodi");
+                GameMenu.print("harkat amodi");
             }
             if (currentSoldier.getX() == x2 && currentSoldier.getY() == y2) {
-                System.out.println("arrived " + currentSoldier.getX()+" " + currentSoldier.getY());
+                GameMenu.print("arrived " + currentSoldier.getX()+" " + currentSoldier.getY());
 
                 tempX = x2;
                 x2 = x1;
@@ -225,9 +227,9 @@ public class GameMenuController {
                 y1 = tempY;
 
             }
-            if(currentSoldier.getX() ==  && currentSoldier.getY() == ){
-                //TODO cheching if someone or something is on the way to attack
-            }
+
+            //TODO cheching if someone or something is on the way to attack
+
 
         }
 
@@ -236,6 +238,7 @@ public class GameMenuController {
 
     public static void set(int x,int y,String mood){
         currentSoldier.setMood(mood);
+        GameMenu.print("mood set successfully!");
     }
 
 
@@ -248,11 +251,11 @@ public class GameMenuController {
                 currentSoldier.setY(enemyY);
                 Player.getSoldierByFeature(enemyX, enemyY).setHealth(Player.getSoldierByFeature(enemyX, enemyY)
                         .getHealth() - 1);
-                System.out.println("attacked successfully!!");
+                GameMenu.print("attacked successfully!!");
             } else
-                System.out.println("you can not attack him! he is sooo strong");
+                GameMenu.print("you can not attack him! he is sooo strong");
         }else
-            System.out.println("no one is here to kill!!");
+            GameMenu.print("no one is here to kill!!");
     }
 
 
@@ -264,53 +267,53 @@ public class GameMenuController {
             if(distance<=currentSoldier.getType().getRange()){
                 if(Player.getSoldierByFeature(x,y)!=null){
                     Player.getSoldierByFeature(x,y).setHealth(Player.getSoldierByFeature(x,y).getHealth()-1);
-                    System.out.println("Good job Archer! You got the target");
+                    GameMenu.print("Good job Archer! You got the target");
                 }else {
-                    System.out.println("no one was there to kill");
+                    GameMenu.print("no one was there to kill");
                 }
             }else{
-                System.out.println("the target is too far from this Archer!");
+                GameMenu.print("the target is too far from this Archer!");
             }
         }
         else {
-            System.out.println("this unit can not do air attack!");
+            GameMenu.print("this unit can not do air attack!");
         }
     }
-    public void pourOil(String directions){
+    public static void pourOil(String directions){
         if(currentSoldier.getType().getName().equals("Engineer")){
             switch (directions){
                 case "up":
-                    System.out.println("Engineer: pouring oil upwards");
+                    GameMenu.print("Engineer: pouring oil upwards");
                 case "down":
-                    System.out.println("Engineer: pouring oil downwards");
+                    GameMenu.print("Engineer: pouring oil downwards");
                 case "left":
-                    System.out.println("Engineer: pouring oil leftwards");
+                    GameMenu.print("Engineer: pouring oil leftwards");
                 case "right":
-                    System.out.println("Engineer: pouring oil rightwards");
+                    GameMenu.print("Engineer: pouring oil rightwards");
             }
             //TODO go to oil station
         }else
-            System.out.println("this unit can not pour oil!");
+            GameMenu.print("this unit can not pour oil!");
     }
-    public void digTunnel(int x,int y){
+    public static void digTunnel(int x,int y){
         if(currentSoldier.getType().getName().equals("Tunneler")){
             //TODO dig tunnel in thet part of map
-            System.out.println("digging tunnel successfully!!");
+            GameMenu.print("digging tunnel successfully!!");
         }else
-            System.out.println("this unit can not dig tunnel!");
+            GameMenu.print("this unit can not dig tunnel!");
     }
-    public void build(String equipment){
+    public static void build(String equipment){
         if(currentSoldier.getType().getName().equals("Engineer")) {
             //TODO build equipment
-            System.out.println("building equipment successfully!!");
+            GameMenu.print("building equipment successfully!!");
         }else
-            System.out.println("this unit can not dig tunnel!");
+            GameMenu.print("this unit can not dig tunnel!");
     }
 
-    public void disbandUnit(){
-        currentSoldier.setX();
-        currentSoldier.setY();
-        System.out.println("this unit went to village!");
+    public static void disbandUnit(){
+//        currentSoldier.setX();
+//        currentSoldier.setY();
+        GameMenu.print("this unit went to village!");
     }
 
     public void DFS(){

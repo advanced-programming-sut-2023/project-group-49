@@ -25,9 +25,12 @@ public class GameMenu {
     static int enemyY;
     static String direction;
     static String equipment;
+    static Soldiers type;
+    static String typeName;
 
 
-    public static void run() {
+    public static void run(String command1) {
+        GameMenuController.separatorUsers(command1);
         while (true) {
             String command = MainMenu.getScanner().nextLine();
             Matcher matcher;
@@ -90,49 +93,64 @@ public class GameMenu {
 
 
     public static void selectUnit(String command) {
-        Sloldier sloldier = new Sloldier(x, y, type);
+        separatorGaming(command);
+        try {
+            GameMenuController.selectUnit(x,y,type);
+        }catch (NullPointerException ignored){
+
+        }
+
 
     }
 
     public static void moveUnitTo(String command) {
-
+        separatorGaming(command);
+        GameMenuController.moveUnitTo(x,y);
     }
 
     public static void patrolUnit(String command) {
-
+        separatorGaming(command);
+        GameMenuController.patrolUnit(x,y,X,Y);
     }
 
     public static void set(String command) {
-
+        separatorGaming(command);
+        GameMenuController.set(x,y,mood);
     }
 
-    public void attackEnemy(String command) {
-
+    public static void attackEnemy(String command) {
+        separatorGaming(command);
+        GameMenuController.attackEnemy(x,y);
     }
 
-    public void airAttack(String command) {
-
+    public static void airAttack(String command) {
+        separatorGaming(command);
+        GameMenuController.airAttack(x,y);
     }
 
-    public void pourOil(String command) {
-
+    public static void pourOil(String command) {
+        separatorGaming(command);
+        GameMenuController.pourOil(direction);
     }
 
-    public void digTunnel(String command) {
-
+    public static void digTunnel(String command) {
+        separatorGaming(command);
+        GameMenuController.digTunnel(x,y);
     }
 
-    public void build(String command) {
-
+    public static void build(String command) {
+        separatorGaming(command);
+        GameMenuController.build(equipment);
     }
 
-    public void disbandUnit(String command) {
-
+    public static void disbandUnit(String command) {
+        separatorGaming(command);
+        GameMenuController.disbandUnit();
     }
 
 
     public static void separatorGaming(String c) {
-        String pattern2 = "-(?<option>[xyXY1234seEdq]) (?<name>\\S+)";
+        String pattern2 = "-(?<option>[xyXY1234seEdqt]) (?<name>\\S+)";
         Pattern pattern = Pattern.compile(pattern2);
         Matcher matcher = pattern.matcher(c);
         while (matcher.find()) {
@@ -166,9 +184,22 @@ public class GameMenu {
                 case "q":
                     equipment = name;
                     break;
+                case "t":
+                    typeName = name;
+                    try {
+                        type=Soldiers.getSoldiersByName(typeName);
+                    }catch (NullPointerException ignored){
+
+                    }
+                    break;
+
 
             }
         }
+    }
+
+    public static void print(String input){
+        System.out.println(input);
     }
 }
 

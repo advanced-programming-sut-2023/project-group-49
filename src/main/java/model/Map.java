@@ -33,17 +33,5 @@ public class Map {
         return Map.mainMap[x][y];
     }
 
-    public static boolean hasNotMilitary(int x, int y){
-        return mainMap[x][y].getListOfUnits().isEmpty();
-    }
-
-    public static boolean hasNotBuilding(int x, int y){
-        return mainMap[x][y].getListOfBuildings().isEmpty();
-    }
-
-    public static boolean hasNotTree(int x, int y){
-        return mainMap[x][y].getTree().isEmpty();
-    }
-
 
 }

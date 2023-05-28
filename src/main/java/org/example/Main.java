@@ -7,7 +7,9 @@ public class Main {
     public static void main(String[] args) {
         SignupMenuAndLoginMenu signupMenuAndLoginMenu=new SignupMenuAndLoginMenu();
         MainMenu mainMenu=new MainMenu();
-        signupMenuAndLoginMenu.run();
-        mainMenu.run();
+        while (true) {
+            signupMenuAndLoginMenu.run();
+            mainMenu.run();
+        }
     }
 }

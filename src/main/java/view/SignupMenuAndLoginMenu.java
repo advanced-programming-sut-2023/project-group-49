@@ -39,7 +39,6 @@ public class SignupMenuAndLoginMenu {
 
                 String result=login(matcher);
                 System.out.println(result);
-                System.out.println(LoginMenuController.getIncorrectPassword());
                 if(LoginMenuController.getIncorrectPassword()==4) {
                     System.out.println("please wait "+LoginMenuController.getWaitTime()+" seconds:");
                     System.out.println(LoginMenuController.waitIncorrectPassword());

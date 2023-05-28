@@ -13,20 +13,12 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static controller.GameMenuController.equipment;
+import static controller.GameMenuController.getAllBuildings;
+
 
 public class GameMenu {
 
-    static int x;
-    static int y;
-    static int X;
-    static int Y;
-    static String mood;
-    static int enemyX;
-    static int enemyY;
-    static String direction;
-    static String equipment;
-    static Soldiers type;
-    static String typeName;
 
 
     public static void run(String command1) {
@@ -120,9 +112,9 @@ public class GameMenu {
 
 
     public static void selectUnit(String command) {
-        separatorGaming(command);
+        GameMenuController.separatorGaming(command);
         try {
-            GameMenuController.selectUnit(x,y,type);
+            GameMenuController.selectUnit(GameMenuController.x,GameMenuController.y,GameMenuController.type);
         }catch (NullPointerException ignored){
 
         }
@@ -131,99 +123,51 @@ public class GameMenu {
     }
 
     public static void moveUnitTo(String command) {
-        separatorGaming(command);
-        GameMenuController.moveUnitTo(x,y);
+        GameMenuController.separatorGaming(command);
+        GameMenuController.moveUnitTo(GameMenuController.x,GameMenuController.y);
     }
 
     public static void patrolUnit(String command) {
-        separatorGaming(command);
-        GameMenuController.patrolUnit(x,y,X,Y);
+       GameMenuController.separatorGaming(command);
+        GameMenuController.patrolUnit(GameMenuController.x,GameMenuController.y,GameMenuController.X,GameMenuController.Y);
     }
 
     public static void set(String command) {
-        separatorGaming(command);
-        GameMenuController.set(x,y,mood);
+        GameMenuController.separatorGaming(command);
+        GameMenuController.set(GameMenuController.x,GameMenuController.y,GameMenuController.mood);
     }
 
     public static void attackEnemy(String command) {
-        separatorGaming(command);
-        GameMenuController.attackEnemy(x,y);
+        GameMenuController.separatorGaming(command);
+        GameMenuController.attackEnemy(GameMenuController.x,GameMenuController.y);
     }
 
     public static void airAttack(String command) {
-        separatorGaming(command);
-        GameMenuController.airAttack(x,y);
+        GameMenuController.separatorGaming(command);
+        GameMenuController.airAttack(GameMenuController.x,GameMenuController.y);
     }
 
     public static void pourOil(String command) {
-        separatorGaming(command);
-        GameMenuController.pourOil(direction);
+        GameMenuController.separatorGaming(command);
+        GameMenuController.pourOil(GameMenuController.direction);
     }
 
     public static void digTunnel(String command) {
-        separatorGaming(command);
-        GameMenuController.digTunnel(x,y);
+        GameMenuController.separatorGaming(command);
+        GameMenuController.digTunnel(GameMenuController.x,GameMenuController.y);
     }
 
     public static void build(String command) {
-        separatorGaming(command);
+       GameMenuController.separatorGaming(command);
         GameMenuController.build(equipment);
     }
 
     public static void disbandUnit(String command) {
-        separatorGaming(command);
+        GameMenuController.separatorGaming(command);
         GameMenuController.disbandUnit();
     }
 
 
-    public static void separatorGaming(String c) {
-        String pattern2 = "-(?<option>[xyXY1234seEdqt]) (?<name>\\S+)";
-        Pattern pattern = Pattern.compile(pattern2);
-        Matcher matcher = pattern.matcher(c);
-        while (matcher.find()) {
-            String option = matcher.group("option");
-            String name = matcher.group("name");
-            switch (option) {
-                case "x":
-                    x = Integer.parseInt(name);
-                    break;
-                case "y":
-                    y = Integer.parseInt(name);
-                    break;
-                case "X":
-                    X = Integer.parseInt(name);
-                    break;
-                case "Y":
-                    Y = Integer.parseInt(name);
-                    break;
-                case "s":
-                    mood = name;
-                    break;
-                case "e":
-                    enemyX = Integer.parseInt(name);
-                    break;
-                case "E":
-                    enemyY = Integer.parseInt(name);
-                    break;
-                case "d":
-                    direction = name;
-                    break;
-                case "q":
-                    equipment = name;
-                    break;
-                case "t":
-                    typeName = name;
-                    try {
-                        type=Soldiers.getSoldiersByName(typeName);
-                    }catch (NullPointerException ignored){
-
-                    }
-                    break;
-
-
-            }
-        }
-    }
 
     public static void print(String input){
         System.out.println(input);

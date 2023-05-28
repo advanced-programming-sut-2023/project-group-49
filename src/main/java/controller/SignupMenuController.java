@@ -178,7 +178,7 @@ public class SignupMenuController {
         jsonObject.put("Question",user.getPasswordRecoveryQuestion());
         jsonObject.put("answer",user.getAnswer());
         try {
-            FileWriter file = new FileWriter("Database:/"+user.getUserId()+".json");
+            FileWriter file = new FileWriter("Database/"+user.getUserId()+".json");
             file.write(jsonObject.toJSONString());
             file.close();
         } catch (IOException e) {
@@ -417,7 +417,6 @@ public class SignupMenuController {
         }
 
         String randomString3 = randomString2.toString();
-        //BufferedImage image = ImageIO.read(new File("/Users/mkyong/Desktop/logo.jpg"));
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics g = image.getGraphics();
         g.setFont(new Font("SansSerif", Font.PLAIN, 16));

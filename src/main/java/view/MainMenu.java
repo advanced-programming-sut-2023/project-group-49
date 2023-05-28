@@ -19,15 +19,15 @@ public class MainMenu {
 
     public static void run() {
         while (true) {
-            System.out.println("***");
             String command = getScanner().nextLine();
             Matcher matcher;
             if (command.equals("logout")) {
+                System.out.println("user logged out!");
                 break;
             }else if(command.matches("profile .+")){
                 ProfileMenu profileMenu=new ProfileMenu();
                 profileMenu.run(command);
-            }else{
+            }else if(command.matches("start game .+")){
                 GameMenu gameMenu=new GameMenu();
                 gameMenu.run(command);
             }

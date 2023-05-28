@@ -11,13 +11,7 @@ public class LoginMenuController {
     static int waitcount=1;
     public static CommandsEnum userLogin(String username, String password, String stayIn) {
         stayIn = stayIn.trim();
-        try {
-            if(!User.getUserByUsername(username).isPasswordCorrect(password)){
-                incorrectPassword++;
-            }
-        }catch (NullPointerException ignored){
 
-        }
         try {
             if (!stayLoggedIn&&User.getUserByUsername(username) == null || !User.getUserByUsername(username).
                     isPasswordCorrect(password)) {
@@ -37,6 +31,14 @@ public class LoginMenuController {
             currentUser=User.getUserByUsername(username);
         } else
             currentUser = User.getUserByUsername(username);
+        try {
+            if(!User.getUserByUsername(username).isPasswordCorrect(password)){
+                incorrectPassword++;
+                return CommandsEnum.INVALID_USERNAME_OR_PASSWORD;
+            }
+        }catch (NullPointerException ignored){
+
+        }
         incorrectPassword=0;
         waitTime=5;
         waitcount=1;

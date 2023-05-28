@@ -22,6 +22,18 @@ public class GameMenuController {
     static Player player;
     static int buildingX;
     static int buildingY;
+    public static int x;
+    public static int y;
+   public static int X;
+    public static int Y;
+    public static String mood;
+    public static int enemyX;
+    public static int enemyY;
+    public static String direction;
+    public static String equipment;
+    public static Soldiers type;
+    public static String typeName;
+
 
     private static int x0;
     private static int y0;
@@ -534,9 +546,10 @@ public class GameMenuController {
         while (matcher.find()) {
             users.add(matcher.group("name"));
         }
+        addUserToGame();
     }
 
-    public String addUserToGame() {
+    public static String addUserToGame() {
         try {
             for (String user : users) {
                 if (User.getUserByUsername(user) == null)
@@ -564,6 +577,55 @@ public class GameMenuController {
         }
         return "turn changed successfully";
     }
+    public static void separatorGaming(String c) {
+        String pattern2 = "-(?<option>[xyXY1234seEdqt]) (?<name>\\S+)";
+        Pattern pattern = Pattern.compile(pattern2);
+        Matcher matcher = pattern.matcher(c);
+        while (matcher.find()) {
+            String option = matcher.group("option");
+            String name = matcher.group("name");
+            switch (option) {
+                case "x":
+                    x = Integer.parseInt(name);
+                    break;
+                case "y":
+                    y = Integer.parseInt(name);
+                    break;
+                case "X":
+                    X = Integer.parseInt(name);
+                    break;
+                case "Y":
+                    Y = Integer.parseInt(name);
+                    break;
+                case "s":
+                    mood = name;
+                    break;
+                case "e":
+                    enemyX = Integer.parseInt(name);
+                    break;
+                case "E":
+                    enemyY = Integer.parseInt(name);
+                    break;
+                case "d":
+                    direction = name;
+                    break;
+                case "q":
+                    equipment = name;
+                    break;
+                case "t":
+                    typeName = name;
+                    try {
+                        type=Soldiers.getSoldiersByName(typeName);
+                    }catch (NullPointerException ignored){
+
+                    }
+                    break;
+
+
+            }
+        }
+    }
+
 
 }
 

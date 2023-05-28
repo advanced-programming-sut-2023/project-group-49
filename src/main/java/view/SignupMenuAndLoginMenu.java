@@ -2,17 +2,24 @@ package view;
 
 import controller.LoginMenuController;
 
+import java.net.URL;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import controller.ProfileMenuController;
 import controller.SignupMenuController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import model.User;
 
 import static view.CommandsEnum.USERNAME_FORMAT_INVALID;
 
-public class SignupMenuAndLoginMenu {
+public class SignupMenuAndLoginMenu  extends Application {
 
     static String username;
     static String password ;
@@ -236,5 +243,16 @@ public class SignupMenuAndLoginMenu {
     }
     public static void print(String input){
         System.out.println(input);
+    }
+    public static void main(String[] args){
+        launch(args);
+    }
+    @Override
+    public void start(Stage stage) throws Exception {
+        URL url= SignupMenuAndLoginMenu.class.getResource("/FXML/signupMenu.fxml");
+        BorderPane borderPane= FXMLLoader.load(url);
+        Scene scene=new Scene(borderPane);
+        stage.setScene(scene);
+        stage.show();
     }
 }

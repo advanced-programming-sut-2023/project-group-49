@@ -51,8 +51,8 @@ public class ProfileMenu {
                 showProfile(command);
             else
                 System.out.println("Invalid command!");
-            SignupMenuController.userDataBase();
-            SignupMenuController.getNull();
+           // SignupMenuController.userDataBase();
+          //  SignupMenuController.getNull();
 
 
         }

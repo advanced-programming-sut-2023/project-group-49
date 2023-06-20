@@ -1,29 +1,19 @@
 package controller;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import model.User;
 
 import view.CommandsEnum;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Random;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.json.simple.JSONObject;
-import view.MainMenu;
-import view.SignupMenuAndLoginMenu;
-
-public class SignupMenuController {
+public class SignupController {
     public static String newUsername;
 
-    static String username;
+   /* static String username;
     static String password;
     static String email;
     static String nickname;
@@ -33,54 +23,62 @@ public class SignupMenuController {
     static String answerConfirm;
     static String passwordConfirmation;
     static String oldPassword;
-    static String newPassword;
+    static String newPassword;*/
     static int randomNumber;
+    @FXML
+    public static TextField username= view.SignupMenuController.currentSignupMenu.username;
+    public static PasswordField password= view.SignupMenuController.currentSignupMenu.password;
+    public static PasswordField passwordConfirmation= view.SignupMenuController.currentSignupMenu.passwordConfirmation;
+    public static TextField email= view.SignupMenuController.currentSignupMenu.email;
+    public static TextField nickname=view.SignupMenuController.currentSignupMenu.nickname;
 
 
 
     public static CommandsEnum userCreator() {
-        if (username == null || password == null || passwordConfirmation == null || nickname == null
-                || email == null) {
-            getNull();
+
+        if (username.getText().length()==0 || password.getText().length()==0 || passwordConfirmation.getText().length()==0 ||
+                nickname.getText().length()==0 || email.getText().length()==0) {
+           // getNull();
             return CommandsEnum.EMPTY_FIELD;
         }
-        CommandsEnum result2=checkUsername(username);
+        CommandsEnum result2=checkUsername(username.getText());
+        System.out.println(result2);
         if(result2!=CommandsEnum.SUCCESS) {
-            getNull();
+           // getNull();
             return result2;
         }
         if(!password.equals("random")) {
-            CommandsEnum result = checkPasswordFormat(password);
+            CommandsEnum result = checkPasswordFormat(password.getText());
             if (result != CommandsEnum.SUCCESS) {
-                getNull();
+             //   getNull();
                 return result;
             }
-            if (!password.equals(passwordConfirmation)) {
-                getNull();
+            if (!password.getText().equals(passwordConfirmation.getText())) {
+              //  getNull();
                 return CommandsEnum.PASSWORD_CONFIRMATION_INCORRECT;
             }
-            CommandsEnum result3=checkEmailFormats(email);
+            CommandsEnum result3=checkEmailFormats(email.getText());
             if(result3!=CommandsEnum.SUCCESS){
-                getNull();
+               // getNull();
                 return result3;
             }
         }
 
-        User user=new User(username,password,nickname,email);
-        try {
+        User user=new User(username.getText(),password.getText(),nickname.getText(),email.getText());
+      /*  try {
             user.setSlogan(slogan);
             if(slogan.equals("random"))
                 randomSlogan();
         }catch(NullPointerException ignored){
 
-        }
+        }*/
 
         User.addUser(user);
-        if(password.equals("random"))
+      /*  if(password.equals("random"))
             randomPassword();
 
-     //   userDataBase();
-
+        userDataBase();
+*/
 
         return CommandsEnum.SUCCESS;
     }
@@ -130,7 +128,7 @@ public class SignupMenuController {
         }
 
     }
-  /*  public static String  answerOfSecurityQuestion(){
+   /* public static String  answerOfSecurityQuestion(){
         try {
             if(Integer.parseInt(questionNumber)==1) {
                 User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my father's name?");
@@ -185,7 +183,8 @@ public class SignupMenuController {
         }
 
     }*/
-    public static void randomPassword(){
+    public static String randomPassword(){
+
         Random rand = new Random();
         int length;
         while (true) {
@@ -256,11 +255,13 @@ public class SignupMenuController {
             randomString.insert(change2, c1);
         }
         String randomString2= String.valueOf(randomString);
-      //  SignupMenuAndLoginMenu.printRandomPassword(randomString2);
-        User.getUserByUsername(username).setPassword(randomString2);
+       // SignupMenuAndLoginMenu.printRandomPassword(randomString2);
+      //  User.getUserByUsername(username).setPassword(randomString2);
+        System.out.println(randomString2);
+        return randomString2;
 
     }
-    public static void randomSlogan(){
+   /* public static void randomSlogan(){
         String randomSlogan=null;
         Random random=new Random();
         int lineNumber=random.nextInt(19);
@@ -337,20 +338,20 @@ public class SignupMenuController {
             passwordConfirmation=matcher.group("password");
         }
 
-    }
+    }*/
     public static void getNull(){
         username=null;
         password=null;
         passwordConfirmation=null;
         email=null;
         nickname=null;
-        slogan=null;
+       /* slogan=null;
         answer=null;
         answerConfirm=null;
-        questionNumber=null;
+        questionNumber=null;*/
 
     }
-    public static String forgotMyPassword(){
+   /* public static String forgotMyPassword(){
         if(User.getUserByUsername(username)!=null) {
             return User.getUserByUsername(username).getPasswordRecoveryQuestion();
 
@@ -364,28 +365,28 @@ public class SignupMenuController {
         else {
             return "answer incorrect";
         }
-    }
+    }*/
 
     public static String getUsername() {
-        return username;
+        return username.getText();
     }
 
     public static String getNickname() {
-        return nickname;
+        return nickname.getText();
     }
-    public static String getNewPassword(){
+  /*  public static String getNewPassword(){
         return newPassword;
     }
 
     protected static String getOldPassword() {
         return oldPassword;
-    }
+    }*/
 
     public static String getEmail() {
-        return email;
+        return email.getText();
     }
 
-    public static String getSlogan() {
+   /* public static String getSlogan() {
         return slogan;
     }
     public static void captcha() {
@@ -460,6 +461,6 @@ public class SignupMenuController {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
 }

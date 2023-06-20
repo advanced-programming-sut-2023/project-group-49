@@ -8,8 +8,8 @@ public class Main {
         SignupMenuAndLoginMenu signupMenuAndLoginMenu=new SignupMenuAndLoginMenu();
         MainMenu mainMenu=new MainMenu();
         while (true) {
-            signupMenuAndLoginMenu.run();
-            mainMenu.run();
+            //signupMenuAndLoginMenu.run();
+            // mainMenu.run();
         }
     }
 }

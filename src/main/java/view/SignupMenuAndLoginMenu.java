@@ -2,39 +2,16 @@ package view;
 
 import controller.LoginMenuController;
 
-import java.net.URL;
-import java.util.Objects;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import controller.ProfileMenuController;
-import controller.SignupMenuController;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
+import controller.SignupController;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import model.User;
 
-import static view.CommandsEnum.USERNAME_FORMAT_INVALID;
-
-public class SignupMenuAndLoginMenu  extends Application {
-
-    static String username;
-    static String password ;
-    static String email ;
-    static String nickname ;
-    static String slogan ;
-    static String answer ;
-    static String questionNumber ;
-    static String answerConfirm ;
-    static String passwordConfirmation ;
-    static String oldPassword ;
-    static String newPassword ;
+public class SignupMenuAndLoginMenu {
+    public static BorderPane signupBorderPane;
 
 
-    public void run(){
+   /* public void run(){
         while(true){
             String command = MainMenu.getScanner().nextLine();
             Matcher matcher;
@@ -60,56 +37,43 @@ public class SignupMenuAndLoginMenu  extends Application {
         }
 
     }
+*/
 
-
-    private void register(String command){
-        SignupMenuController.separator(command);
-        CommandsEnum message = SignupMenuController.userCreator();
+    public static String register(){
+        // SignupMenuController.separator(command);
+        CommandsEnum message = SignupController.userCreator();
         switch (message) {
             case USERNAME_FORMAT_INVALID:
-                System.out.println("Username's format is invalid!");
-                break;
+                return "Username's format is invalid!";
             case LENGTH_WEEK_PASSWORD:
-                System.out.println("password at least should be 6 character!");
-                break;
+                return "password at least should be 6 character!";
             case CAPITAL_LETTERS:
-                System.out.println("capital letters doesn't exists!");
-                break;
+                return "capital letters doesn't exists!";
             case SMALL_LETTERS:
-                System.out.println("small letters doesn't exists!");
-                break;
+                return "small letters doesn't exists!";
             case NUMBER_NOT_EXISTS:
-                System.out.println("password should have number!");
-                break;
+                return "password should have number!";
             case INVALID_SPECIAL_CHARACTER:
-                System.out.println("password should hava special character!");
-                break;
+                return "password should hava special character!";
             case PASSWORD_CONFIRMATION_INCORRECT:
-                System.out.println("password confirmation doesn't equal your password!");
-                break;
+                return "password confirmation doesn't equal your password!";
             case EMAIL_EXISTS:
-                System.out.println("email is already exists!");
-                break;
+                return "email is already exists!";
             case EMAIL_FORMAT:
-                System.out.println("email's format is invalid!");
-                break;
+                return "email's format is invalid!";
             case USERNAME_EXISTS:
-                System.out.println("user already exists, you may use this username: "+SignupMenuController.newUsername);
-                break;
+                return "user already exists, you may use this username: "+ SignupController.newUsername;
             case EMPTY_FIELD:
-                System.out.println("empty field!");
-                break;
-            case SUCCESS:
-                System.out.println("User has been created successfully!");
-                securityQuestion();
-                break;
-            default:
-                System.out.println("Invalid command!");
+                return "empty field!";
+
+            //  securityQuestion();
+
         }
+        return "User has been created successfully!";
     }
 
 
-    public static void securityQuestion (){
+   /* public static void securityQuestion (){
         System.out.println("Pick your security question: \n1. What is my father’s name? \n" +
                 "2. What was my first pet’s name? \n3. What is my mother’s last name?");
         String command = MainMenu.getScanner().nextLine();
@@ -127,7 +91,7 @@ public class SignupMenuAndLoginMenu  extends Application {
         System.out.println("Your registration is complete");
 
     }
-
+*/
 
 
     private String login(Matcher matcher){
@@ -146,7 +110,7 @@ public class SignupMenuAndLoginMenu  extends Application {
     }
 
 
-    private void forgotPassword(String command) {
+   /* private void forgotPassword(String command) {
         SignupMenuController.separator(command);
         System.out.println(SignupMenuController.forgotMyPassword());
         while (true) {
@@ -174,7 +138,7 @@ public class SignupMenuAndLoginMenu  extends Application {
         }
     }
 
-
+*/
 
     public static String checkPasswordFormat(CommandsEnum commandsEnum){
         switch (commandsEnum){
@@ -232,27 +196,19 @@ public class SignupMenuAndLoginMenu  extends Application {
     public static void printUsernameSuggestion(String username){
         System.out.println(username);
     }
-    public static void printRandomPassword(String randomPassword){
-        System.out.println(randomPassword);
-        while (true){
-            String confirm=MainMenu.getScanner().nextLine();
-            if (confirm.equals(randomPassword))
-                return;
-            else System.out.println("Your password is wrong!");
-        }
-    }
+    /*  public static void printRandomPassword(String randomPassword){
+          System.out.println(randomPassword);
+          while (true){
+              String confirm=MainMenu.getScanner().nextLine();
+              if (confirm.equals(randomPassword))
+                  return;
+              else System.out.println("Your password is wrong!");
+          }
+      }*/
     public static void print(String input){
         System.out.println(input);
     }
-    public static void main(String[] args){
-        launch(args);
-    }
-    @Override
-    public void start(Stage stage) throws Exception {
-        URL url= SignupMenuAndLoginMenu.class.getResource("/FXML/signupMenu.fxml");
-        BorderPane borderPane= FXMLLoader.load(url);
-        Scene scene=new Scene(borderPane);
-        stage.setScene(scene);
-        stage.show();
-    }
+
+
+
 }

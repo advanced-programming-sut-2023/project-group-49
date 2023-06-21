@@ -8,17 +8,21 @@ import javafx.application.Application;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class SignupMenuController extends Application {
+import java.util.Objects;
 
+public class SignupMenuController extends Application {
+    public static Stage stage;
     @FXML
     public TextField username;
     public PasswordField password;
@@ -33,31 +37,59 @@ public class SignupMenuController extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //  URL url= SignupMenuAndLoginMenu.class.getResource("/FXML/signupMenu.fxml");
+        SignupMenuController.stage=stage;
+        stage.getIcons().add(new Image(SignupMenuController.class.getResource("/images/iconCR.png").toExternalForm()));
+        stage.setTitle("STRONG HOLD");
+        //stage.setFullScreen(true);
+        stage.setMaximized(true);
+        stage.setMaxHeight(900);
+        stage.setMaxWidth(2000);
         TextField username = new TextField ();
         username.setPromptText("username");
+        username.setMaxSize(200,10);
         PasswordField password=new PasswordField();
         password.setPromptText("password");
+        password.setMinSize(100,20);
+        ToggleButton showPasswordButton=new ToggleButton("show password");
+        showPasswordButton.setMinSize(50,10);
+        HBox hBox=new HBox(password,showPasswordButton);
+        hBox.setSpacing(10);
+        hBox.setMinSize(800,10);
+        hBox.setAlignment(Pos.CENTER);
         PasswordField passwordConfirmationField=new PasswordField();
         passwordConfirmationField.setPromptText("password confirmation");
+        passwordConfirmationField.setMaxSize(200,10);
         TextField nickname=new TextField();
         nickname.setPromptText("nickname");
+        nickname.setMaxSize(200,10);
         TextField email=new TextField();
         email.setPromptText("email");
+        email.setMaxSize(200,10);
         VBox vb = new VBox();
+        vb.setAlignment(Pos.CENTER);
         vb.setMinSize(300,300);
-        vb.getChildren().addAll(username,passwordConfirmationField,email,nickname);
+        vb.getChildren().addAll(username,hBox,passwordConfirmationField,nickname,email);
         vb.setSpacing(10);
+        Image image = new Image(Objects.requireNonNull(
+                SignupMenuController.class.getResource("/images/Back.jpg")).toExternalForm());
+        ImageView imageView = new ImageView(image);
+        BackgroundImage backgroundImage = new BackgroundImage(imageView.getImage(), BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                new BackgroundSize(100,100,true,true,true,true));
 
+        Background background = new Background(backgroundImage);
+
+
+        vb.setBackground(background);
         Scene scene=new Scene(vb);
+
+        scene.getStylesheets().addAll(SignupMenuController.class.getResource("/CSS/style1.css").toExternalForm());
+
         stage.setScene(scene);
-        stage.setFullScreen(true);
-        ToggleButton showPasswordButton=new ToggleButton("show password");
-        HBox hBox=new HBox(password,showPasswordButton);
         VBox.setMargin(hBox, new Insets(0, 0, 0, 50));
-        vb.getChildren().add(hBox);
         showPasswordButton.setOnAction(event -> {
 
-            showPasswordButton.setText("\u2713 hide password");
+            showPasswordButton.setText("hide password");
 
           /*  if(!password.isVisible())
             password.setVisible(true);
@@ -119,6 +151,7 @@ public class SignupMenuController extends Application {
         Button randomSlogan=new Button("random slogan");
         checkBox.setOnMouseClicked(mouseEvent ->{
             slogan.setPromptText("enter slogan");
+            slogan.setMaxSize(200,10);
             vb.getChildren().addAll(slogan,randomSlogan);
 
 
@@ -131,7 +164,7 @@ public class SignupMenuController extends Application {
         Button submit=new Button("submit");
         submit.setOnAction(actionEvent -> {
             try {
-                new SecurityQuestion().start(stage);
+                new SecurityQuestion().start(this.stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

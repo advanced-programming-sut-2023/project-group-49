@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import controller.SignupController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -48,9 +50,7 @@ public class SignupMenuController extends Application {
 
         Scene scene=new Scene(vb);
         stage.setScene(scene);
-        StringProperty textProperty =username.textProperty();
-        Label errorText=new Label("");
-        vb.getChildren().add(errorText);
+        stage.setFullScreen(true);
         ToggleButton showPasswordButton=new ToggleButton("show password");
         HBox hBox=new HBox(password,showPasswordButton);
         VBox.setMargin(hBox, new Insets(0, 0, 0, 50));
@@ -66,32 +66,85 @@ public class SignupMenuController extends Application {
         Button createRandomPassword=new Button("random password");
         vb.getChildren().add(createRandomPassword);
         createRandomPassword.setOnMouseClicked(mouseEvent -> {
-            Label label=new Label();
+           Label label=new Label();
+         //  label.setText(randomPassword);
+         //   System.out.println(randomPassword);
 
-            System.out.println(SignupController.randomPassword());
-
-            //label.setText("your random password is:"+ controller.SignupMenuController.randomPassword());
+            label.setText("your random password is:"+ Controller.randomPassword());
             vb.getChildren().add(label);
         });
         // vb.getChildren().add(showPasswordButton);
+        StringProperty textProperty =username.textProperty();
         textProperty.addListener((observable, oldValue, newValue) -> {
             String text = textProperty.get();
+            System.out.println(text);
+        });
+        StringProperty textProperty2 =password.textProperty();
+        textProperty2.addListener((observable, oldValue, newValue) -> {
+            String text2 = textProperty2.get();
 
 
         });
+        Label errorTextUsername=new Label("");
 
+        Label errorTextPassword=new Label("");
+        vb.getChildren().addAll(errorTextUsername,errorTextPassword);
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {
-            errorText.setLayoutY(300);
-            errorText.setLayoutX(300);
+            errorTextUsername.setLayoutY(300);
+            errorTextUsername.setLayoutX(300);
+            errorTextPassword.setLayoutX(300);
+            errorTextPassword.setLayoutY(310);
+            String result;
             if(!username.getText().matches("[a-zA-Z0-9_]+")&&username.getText().length()!=0){
-                errorText.setText("invalid username format!");
+                errorTextUsername.setText("invalid username format!");
             }
-            else{
-                errorText.setText("");
+            if(!(result=Controller.checkPasswordFormat(password.getText())).equals("password successfully changed!")){
+
+             //   System.out.println(result);
+                errorTextPassword.setText(result);
+            }
+            if(username.getText().matches("[a-zA-Z0-9_]+")||username.getText().length()==0){
+                errorTextUsername.setText("");
+            }
+            if((result=Controller.checkPasswordFormat(password.getText())).equals("password successfully changed!")){
+                errorTextPassword.setText("");
             }
 
 
         }));
+        //////////////////////Slogan
+        CheckBox checkBox=new CheckBox();
+        checkBox.setText("slogan");
+        TextField slogan=new TextField();
+        Button randomSlogan=new Button("random slogan");
+        checkBox.setOnMouseClicked(mouseEvent ->{
+            slogan.setPromptText("enter slogan");
+            vb.getChildren().addAll(slogan,randomSlogan);
+
+
+        });
+        randomSlogan.setOnMouseClicked(mouseEvent ->{
+            slogan.setText(Controller.randomSlogan());
+        } );
+        vb.getChildren().add(checkBox);
+        ////////////////////////
+        Button submit=new Button("submit");
+        submit.setOnAction(actionEvent -> {
+            try {
+                new SecurityQuestion().start(stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            stage.close();
+        });
+//        submit.setOnMouseClicked(mouseEvent -> {
+//            try {
+//                new SecurityQuestion().start(stage);
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
+        vb.getChildren().add(submit);
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         stage.show();
@@ -108,6 +161,10 @@ public class SignupMenuController extends Application {
         alert.showAndWait();
 
     }
-
+    @FXML
+    public void initialize() {
+        // username.setText(SignupMenuController.getCurrentUser().getName());
+        // password.setText(SignupMenuController.getCurrentUser().getPassword());
+    }
 
 }

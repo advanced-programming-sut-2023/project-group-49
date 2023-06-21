@@ -1,16 +1,44 @@
-Button{
-    -fx-min-width: 120;
-    -fx-max-width: 200;
-    -fx-background-color:
-            #3c7fb1,
-            linear-gradient(#fafdfe, #e8f5fc),
-            linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);
-    -fx-background-insets: 0,1,2;
-    -fx-background-radius: 3,2,1;
-    -fx-padding: 3 30 3 30;
-    -fx-text-fill: black;
-    -fx-font-size: 10px;
+Button {
+
+    -fx-background-size:  100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-pref-height: 22;
+    -fx-font-size: 18;
+    -fx-font-family: "B Nazanin";
+    -fx-text-fill: #000000;
+    -fx-opacity: 80%;
 }
+Button:hover {
+
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+Button:pressed{
+
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-border-color: #0dd214;
+    -fx-border-radius: 3px;
+    -fx-text-fill: #debf09;
+}
+/*Button{*/
+/*    -fx-min-width: 120;*/
+/*    -fx-max-width: 200;*/
+/*    -fx-background-color:*/
+/*            #3c7fb1,*/
+/*            linear-gradient(#fafdfe, #e8f5fc),*/
+/*            linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);*/
+/*    -fx-background-insets: 0,1,2;*/
+/*    -fx-background-radius: 3,2,1;*/
+/*    -fx-padding: 3 30 3 30;*/
+/*    -fx-text-fill: black;*/
+/*    -fx-font-size: 10px;*/
+/*}*/
 
 TextField{
     -fx-font-family: "Arial";

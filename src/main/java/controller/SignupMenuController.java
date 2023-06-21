@@ -31,6 +31,7 @@ public class SignupMenuController {
     private TextField Username;
     public static String newUsername;
 
+    @FXML
     static String username;
     static String password;
     static String email;

@@ -8,23 +8,26 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.SignupMenuController"
+            fx:controller="view.SignupMenuController"
             stylesheets="@../CSS/style1.css"
             prefHeight="400.0" prefWidth="600.0">
 
 
     <center>
         <VBox alignment="CENTER" spacing="20">
-            <Label text="welcome!" id="label"/>
-            <TextField promptText="username" maxWidth="200" fx:id="Username" styleClass="text-input"/>
-            <PasswordField promptText="password" maxWidth="200" fx:id="Password" styleClass="text-input2"/>
-            <HBox alignment="CENTER" spacing="20">
-                <Button text="Sign up" onMouseClicked="#signup"/>
-                <Button text="Login" onMouseClicked="#login"/>
-                <Button text="Skip" onMouseClicked="#skip"/>
-                <Button text="Avatar change" onMouseClicked="#toChangeAvatar"/>
-
+            <TextField promptText="username" maxWidth="200" fx:id="username" styleClass="text-input"/>
+            <HBox alignment="CENTER">
+                <PasswordField promptText="password" maxWidth="200" fx:id="password" styleClass="text-input2"/>
+                <Button alignment="CENTER" text="show password"/>
             </HBox>
+
+            <VBox alignment="CENTER" spacing="20">
+                <PasswordField promptText="password" maxWidth="200" fx:id="passwordConfirmation" styleClass="text-input2"/>
+                <TextField promptText="username" maxWidth="200" fx:id="nickname" styleClass="text-input"/>
+                <TextField promptText="username" maxWidth="200" fx:id="email" styleClass="text-input"/>
+
+
+            </VBox>
         </VBox>
     </center>
 

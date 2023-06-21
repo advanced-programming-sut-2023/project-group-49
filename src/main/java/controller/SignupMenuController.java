@@ -1,5 +1,9 @@
 package controller;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import model.User;
 
 import view.CommandsEnum;
@@ -21,6 +25,10 @@ import view.MainMenu;
 import view.SignupMenuAndLoginMenu;
 
 public class SignupMenuController {
+    @FXML
+    private PasswordField Password;
+    @FXML
+    private TextField Username;
     public static String newUsername;
 
     static String username;
@@ -462,4 +470,15 @@ public class SignupMenuController {
         }
     }
 
+    public void signup(MouseEvent mouseEvent) {
+    }
+
+    public void login(MouseEvent mouseEvent) {
+    }
+
+    public void skip(MouseEvent mouseEvent) {
+    }
+
+    public void toChangeAvatar(MouseEvent mouseEvent) {
+    }
 }

@@ -13,6 +13,7 @@
         <module name="repo3" />
         <module name="approject1" />
         <module name="poi" />
+        <module name="approject" />
         <module name="approjet" />
       </profile>
     </annotationProcessing>

@@ -1,5 +1,6 @@
 package controller;
 
+import model.User;
 import view.CommandsEnum;
 import view.SignupMenuAndLoginMenu;
 
@@ -130,5 +131,13 @@ public class Controller {
 
         SignupMenuAndLoginMenu.print("you random Slogan is : "+randomSlogan);*/
         return randomSlogan;
+    }
+    public static String checkEmailFormats(String email){
+        if (!email.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]+")) {
+            return SignupMenuAndLoginMenu.checkEmail(CommandsEnum.EMAIL_FORMAT);
+        } else if (User.getUserByEmail(email) != null) {
+            return SignupMenuAndLoginMenu.checkEmail(CommandsEnum.EMAIL_EXISTS);
+        }
+        return SignupMenuAndLoginMenu.checkEmail(CommandsEnum.SUCCESS);
     }
 }

@@ -6,7 +6,6 @@ import javafx.scene.control.TextField;
 import model.User;
 
 import view.CommandsEnum;
-import view.SignupMenuAndLoginMenu;
 
 
 import java.util.Random;
@@ -48,7 +47,7 @@ public class SignupController {
            // getNull();
             return result2;
         }
-     /*   if(!password.equals("random")) {
+        if(!password.equals("random")) {
             CommandsEnum result = checkPasswordFormat(password.getText());
             if (result != CommandsEnum.SUCCESS) {
              //   getNull();
@@ -63,7 +62,7 @@ public class SignupController {
                // getNull();
                 return result3;
             }
-        }*/
+        }
 
         User user=new User(username.getText(),password.getText(),nickname.getText(),email.getText());
       /*  try {
@@ -93,19 +92,19 @@ public class SignupController {
         }
         return CommandsEnum.SUCCESS;
     }
-    public static String checkPasswordFormat(String password){
+    public static CommandsEnum checkPasswordFormat(String password){
 
         if (password.length() < 6) {
-            return SignupMenuAndLoginMenu.checkPasswordFormat( CommandsEnum.LENGTH_WEEK_PASSWORD);
+            return CommandsEnum.LENGTH_WEEK_PASSWORD;
         } else if (!password.matches(".*[A-Z].*")) {
-            return SignupMenuAndLoginMenu.checkPasswordFormat(CommandsEnum.CAPITAL_LETTERS);
+            return CommandsEnum.CAPITAL_LETTERS;
         } else if (!password.matches(".*[a-z].*")) {
-            return SignupMenuAndLoginMenu.checkPasswordFormat(CommandsEnum.SMALL_LETTERS);
+            return CommandsEnum.SMALL_LETTERS;
         } else if (!password.matches(".*[0-9].*")) {
-            return SignupMenuAndLoginMenu.checkPasswordFormat(CommandsEnum.NUMBER_NOT_EXISTS);
+            return CommandsEnum.NUMBER_NOT_EXISTS;
         } else if (!password.matches(".*[\\W+].*")) {
-            return SignupMenuAndLoginMenu.checkPasswordFormat(CommandsEnum.INVALID_SPECIAL_CHARACTER);
-        }else return SignupMenuAndLoginMenu.checkPasswordFormat(CommandsEnum.SUCCESS);
+            return CommandsEnum.INVALID_SPECIAL_CHARACTER;
+        }else return CommandsEnum.SUCCESS;
 
     }
     public static CommandsEnum checkEmailFormats(String email){
@@ -186,7 +185,7 @@ public class SignupController {
     }*/
     public static String randomPassword(){
 
-       /* Random rand = new Random();
+        Random rand = new Random();
         int length;
         while (true) {
             length = rand.nextInt(20);
@@ -259,8 +258,7 @@ public class SignupController {
        // SignupMenuAndLoginMenu.printRandomPassword(randomString2);
       //  User.getUserByUsername(username).setPassword(randomString2);
         System.out.println(randomString2);
-        return randomString2;*/
-        return "salam";
+        return randomString2;
 
     }
    /* public static void randomSlogan(){

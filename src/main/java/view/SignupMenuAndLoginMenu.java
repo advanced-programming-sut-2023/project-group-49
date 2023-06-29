@@ -172,14 +172,14 @@ public class SignupMenuAndLoginMenu {
     }
 
 
-    private String checkEmail(CommandsEnum commandsEnum){
+    public static String checkEmail(CommandsEnum commandsEnum){
         switch (commandsEnum){
             case EMAIL_FORMAT:
                 return "invalid email entered!";
             case MALE_EXISTS:
                 return "email already exists!";
             default:
-                return "Invalid command!";
+                return "successful";
         }
     }
 

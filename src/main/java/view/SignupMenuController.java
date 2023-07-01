@@ -53,15 +53,13 @@ public class SignupMenuController extends Application {
         SignupMenuController.stage=stage;
         stage.getIcons().add(new Image(SignupMenuController.class.getResource("/images/iconCR.png").toExternalForm()));
         stage.setTitle("STRONG HOLD");
-        //stage.setFullScreen(true);
-        stage.setMaximized(true);
-        stage.setMaxHeight(900);
-        stage.setMaxWidth(2000);
+        stage.setMaxHeight(650);
+        stage.setMaxWidth(800);
         ///////
 
         Scene scene=new Scene(borderPane);
         Image image = new Image(Objects.requireNonNull(
-                SignupMenuController.class.getResource("/images/Back.jpg")).toExternalForm());
+                SignupMenuController.class.getResource("/images/SignUpMenuBack.jpg")).toExternalForm());
         ImageView imageView = new ImageView(image);
         BackgroundImage backgroundImage = new BackgroundImage(imageView.getImage(),BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
@@ -240,6 +238,7 @@ public class SignupMenuController extends Application {
     public void randomSlogan(MouseEvent mouseEvent) {
         TextField sloganTextField=new TextField();
         sloganTextField.setPromptText("slogan");
+        sloganTextField.setMaxSize(600,10);
         Button randomSlogan=new Button("random slogan");
        
         randomSlogan.setOnMouseClicked(MouseEvent ->{

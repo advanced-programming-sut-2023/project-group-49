@@ -28,15 +28,16 @@ public class SecurityQuestion extends Application {
     public void start(Stage stage) throws Exception {
         VBox box=new VBox();
         VBox=box;
-        Stage stage1=new Stage();
-        stage1.setWidth(500);
-        stage1.setHeight(400);
+
+        stage.setWidth(500);
+        stage.setHeight(400);
         Scene scene=new Scene(box);
         SecurityQuestion.stage=stage;
-        stage1.setScene(scene);
+        stage.setScene(scene);
         Button close= new Button("Close");
-        close.setOnAction(e -> stage1.close());
+        close.setOnAction(e -> stage.close());
         box.getChildren().addAll(close);
+
 
 
         ComboBox<String> questions = new ComboBox<>();
@@ -74,7 +75,7 @@ public class SecurityQuestion extends Application {
 
         });
 
-        stage1.showAndWait();
+        stage.show();
     }
 
     private void selectCaptcha() {
@@ -100,7 +101,8 @@ public class SecurityQuestion extends Application {
         System.out.println(randomCaptchaNumber);
         Rectangle rectangle = new Rectangle(300, 200);
         rectangle.setFill(new ImagePattern(
-                new Image(Objects.requireNonNull(SecurityQuestion.class.getResource("/Captcha/"+randomCaptchaNumber.trim()+".png")).toExternalForm())));
+                new Image(Objects.requireNonNull(SecurityQuestion.class.getResource
+                        ("/Captcha/"+randomCaptchaNumber.trim()+".png")).toExternalForm())));
         VBox.getChildren().add(rectangle);
 
     }

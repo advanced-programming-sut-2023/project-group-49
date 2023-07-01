@@ -10,7 +10,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="view.SignupMenuController"
             stylesheets="@../CSS/style1.css"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="650.0" prefWidth="800.0">
 
 
     <center>
@@ -28,8 +28,6 @@
                 <TextField promptText="email" maxWidth="200" fx:id="email" styleClass="text-input"/>
                 <CheckBox text="slogan" fx:id="slogan" onMouseClicked="#randomSlogan"/>
                 <Button text="submit" onMouseClicked="#checkError"/>
-
-
             </VBox>
         </VBox>
     </center>

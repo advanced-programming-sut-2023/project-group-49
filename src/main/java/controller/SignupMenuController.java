@@ -1,5 +1,9 @@
 package controller;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import model.User;
 
 import view.CommandsEnum;
@@ -21,8 +25,13 @@ import view.MainMenu;
 import view.SignupMenuAndLoginMenu;
 
 public class SignupMenuController {
+    @FXML
+    private PasswordField Password;
+    @FXML
+    private TextField Username;
     public static String newUsername;
 
+    @FXML
     static String username;
     static String password;
     static String email;
@@ -38,7 +47,7 @@ public class SignupMenuController {
 
 
 
-    public static CommandsEnum userCreator() {
+   /* public static CommandsEnum userCreator() {
         if (username == null || password == null || passwordConfirmation == null || nickname == null
                 || email == null) {
             getNull();
@@ -66,7 +75,7 @@ public class SignupMenuController {
             }
         }
 
-        User user=new User(username,password,nickname,email);
+      //  User user=new User(username,password,nickname,email);
         try {
             user.setSlogan(slogan);
             if(slogan.equals("random"))
@@ -79,12 +88,12 @@ public class SignupMenuController {
         if(password.equals("random"))
             randomPassword();
 
-        userDataBase();
+     //   userDataBase();
 
 
         return CommandsEnum.SUCCESS;
     }
-
+*/
     public static CommandsEnum checkUsername(String username){
         if (!username.matches("[a-zA-Z0-9_]+")) {
             return CommandsEnum.USERNAME_FORMAT_INVALID;
@@ -130,7 +139,7 @@ public class SignupMenuController {
         }
 
     }
-    public static String  answerOfSecurityQuestion(){
+  /*  public static String  answerOfSecurityQuestion(){
         try {
             if(Integer.parseInt(questionNumber)==1) {
                 User.getUserByUsername(username).setPasswordRecoveryQuestion("What is my father's name?");
@@ -184,7 +193,7 @@ public class SignupMenuController {
             e.printStackTrace();
         }
 
-    }
+    }*/
     public static void randomPassword(){
         Random rand = new Random();
         int length;
@@ -256,7 +265,7 @@ public class SignupMenuController {
             randomString.insert(change2, c1);
         }
         String randomString2= String.valueOf(randomString);
-        SignupMenuAndLoginMenu.printRandomPassword(randomString2);
+      //  SignupMenuAndLoginMenu.printRandomPassword(randomString2);
         User.getUserByUsername(username).setPassword(randomString2);
 
     }
@@ -333,9 +342,7 @@ public class SignupMenuController {
                     break;
             }
         }
-        if((matcher= MainMenu.getMatcher(c,".*-p \\S+ (?<password>\\S+).*"))!=null){
-            passwordConfirmation=matcher.group("password");
-        }
+
 
     }
     public static void getNull(){
@@ -462,4 +469,15 @@ public class SignupMenuController {
         }
     }
 
+    public void signup(MouseEvent mouseEvent) {
+    }
+
+    public void login(MouseEvent mouseEvent) {
+    }
+
+    public void skip(MouseEvent mouseEvent) {
+    }
+
+    public void toChangeAvatar(MouseEvent mouseEvent) {
+    }
 }

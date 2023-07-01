@@ -3,6 +3,7 @@ module approjet {
     requires javafx.fxml;
     requires javafx.media;
     requires json.simple;
+    requires java.desktop;
 
 
     exports view;

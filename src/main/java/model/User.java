@@ -1,8 +1,14 @@
 package model;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import view.ProfileMenuController;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class User {
+    private Image avatar;
     private String username;
     private String password;
     private String nickname;
@@ -12,6 +18,9 @@ public class User {
     private String answer;
     private int score;
 
+    public Image getAvatar() {
+        return avatar;
+    }
 
     private static ArrayList<User> allUsers ;
     private final int userId;
@@ -21,14 +30,24 @@ public class User {
         allUsers=new ArrayList<>();
     }
 
-    public User(String username, String password, String nickname, String email) {
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
+    }
+
+    public User(String username, String password, String nickname, String email,String passwordRecoveryQuestion
+    ,String slogan,String answer) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.email = email;
+        this.slogan=slogan;
+        this.passwordRecoveryQuestion=passwordRecoveryQuestion;
+        this.answer=answer;
         this.userId=lastUserId;
+        this.avatar=new Image(Objects.requireNonNull(
+                ProfileMenuController.class.getResource("/images/1.png")).toExternalForm());
         lastUserId++;
-
+      allUsers.add(this);
     }
 
 

@@ -1,4 +1,4 @@
-package controller;
+package Controller;
 
 import model.User;
 import view.CommandsEnum;
@@ -9,40 +9,14 @@ public class LoginMenuController {
     static int incorrectPassword=0;
     static int waitTime=5;
     static int waitcount=1;
-    public static CommandsEnum userLogin(String username, String password, String stayIn) {
-        stayIn = stayIn.trim();
+    public static String userLogin(String username, String password) {
 
-        try {
-            if (!stayLoggedIn&&User.getUserByUsername(username) == null || !User.getUserByUsername(username).
+            if (User.getUserByUsername(username) == null || !User.getUserByUsername(username).
                     isPasswordCorrect(password)) {
-                return CommandsEnum.INVALID_USERNAME_OR_PASSWORD;
+                return "invalid username or password";
             }
-        }catch (NullPointerException ignored){
 
-        }
-
-
-
-        if (stayLoggedIn) {
-            stayLoggedIn = false;
-            return CommandsEnum.SUCCESS;
-        } else if (stayIn.matches("--stay-logged-in")) {
-            stayLoggedIn = true;
-            currentUser=User.getUserByUsername(username);
-        } else
-            currentUser = User.getUserByUsername(username);
-        try {
-            if(!User.getUserByUsername(username).isPasswordCorrect(password)){
-                incorrectPassword++;
-                return CommandsEnum.INVALID_USERNAME_OR_PASSWORD;
-            }
-        }catch (NullPointerException ignored){
-
-        }
-        incorrectPassword=0;
-        waitTime=5;
-        waitcount=1;
-        return CommandsEnum.SUCCESS;
+        return "successful";
 
     }
 
